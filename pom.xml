@@ -60,6 +60,13 @@
             <scope>runtime</scope>
         </dependency>
         
+        <!-- PostgreSQL for production (Heroku) -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
         <!-- Spring JDBC for database operations -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

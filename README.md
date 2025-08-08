@@ -64,6 +64,58 @@ src/
 - **Username**: `sa`
 - **Password**: `password`
 
+## 🌐 Deployment for Client Access
+
+### Option 1: Deploy to Heroku (Recommended)
+
+1. **Install Heroku CLI**
+   ```bash
+   # macOS
+   brew tap heroku/brew && brew install heroku
+   
+   # Windows
+   # Download from https://devcenter.heroku.com/articles/heroku-cli
+   ```
+
+2. **Login to Heroku**
+   ```bash
+   heroku login
+   ```
+
+3. **Create Heroku app**
+   ```bash
+   heroku create your-app-name
+   ```
+
+4. **Add PostgreSQL database**
+   ```bash
+   heroku addons:create heroku-postgresql:mini
+   ```
+
+5. **Deploy to Heroku**
+   ```bash
+   git push heroku main
+   ```
+
+6. **Open the application**
+   ```bash
+   heroku open
+   ```
+
+### Option 2: Deploy to Railway
+
+1. **Go to [Railway.app](https://railway.app)**
+2. **Connect your GitHub repository**
+3. **Add PostgreSQL database**
+4. **Deploy automatically**
+
+### Option 3: Deploy to Render
+
+1. **Go to [Render.com](https://render.com)**
+2. **Connect your GitHub repository**
+3. **Configure as Web Service**
+4. **Add PostgreSQL database**
+
 ## 📊 SQL Files
 
 ### schema.sql
