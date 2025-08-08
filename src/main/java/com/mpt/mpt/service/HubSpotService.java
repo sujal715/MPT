@@ -1,15 +1,11 @@
 package com.mpt.mpt.service;
 
-import com.hubspot.api.client.ApiClient;
-import com.hubspot.api.client.ApiException;
-import com.hubspot.api.client.api.crm.contacts.ContactsApi;
-import com.hubspot.api.client.api.crm.deals.DealsApi;
-import com.hubspot.api.client.model.*;
 import com.mpt.mpt.entity.Customer;
 import com.mpt.mpt.entity.Booking;
-import com.mpt.mpt.entity.Package;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,15 +16,15 @@ public class HubSpotService {
     @Value("${hubspot.api.key:}")
     private String hubspotApiKey;
 
-    private ApiClient apiClient;
-    private ContactsApi contactsApi;
-    private DealsApi dealsApi;
+    @Value("${hubspot.portal.id:}")
+    private String hubspotPortalId;
+
+    private final WebClient webClient;
 
     public HubSpotService() {
-        // Initialize HubSpot client
-        this.apiClient = new ApiClient();
-        this.contactsApi = new ContactsApi(apiClient);
-        this.dealsApi = new DealsApi(apiClient);
+        this.webClient = WebClient.builder()
+                .baseUrl("https://api.hubapi.com")
+                .build();
     }
 
     /**
@@ -40,8 +36,6 @@ public class HubSpotService {
                 return "HubSpot API key not configured";
             }
 
-            apiClient.setApiKey(hubspotApiKey);
-
             // Create contact properties
             Map<String, String> properties = new HashMap<>();
             properties.put("email", customer.getEmail());
@@ -50,14 +44,22 @@ public class HubSpotService {
             properties.put("phone", customer.getPhone() != null ? customer.getPhone() : "");
             properties.put("address", customer.getAddress() != null ? customer.getAddress() : "");
 
-            // Create contact
-            SimplePublicObjectInput contactInput = new SimplePublicObjectInput();
-            contactInput.setProperties(properties);
+            // Create contact request body
+            Map<String, Object> requestBody = new HashMap<>();
+            requestBody.put("properties", properties);
 
-            SimplePublicObject contact = contactsApi.create(contactInput);
-            return "Contact created with ID: " + contact.getId();
+            String response = webClient.post()
+                    .uri("/crm/v3/objects/contacts")
+                    .header("Authorization", "Bearer " + hubspotApiKey)
+                    .header("Content-Type", "application/json")
+                    .bodyValue(requestBody)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
 
-        } catch (ApiException e) {
+            return "Contact created successfully: " + response;
+
+        } catch (Exception e) {
             return "Error creating HubSpot contact: " + e.getMessage();
         }
     }
@@ -71,8 +73,6 @@ public class HubSpotService {
                 return "HubSpot API key not configured";
             }
 
-            apiClient.setApiKey(hubspotApiKey);
-
             // Create deal properties
             Map<String, String> properties = new HashMap<>();
             properties.put("dealname", "Booking #" + booking.getBookingId() + " - " + booking.getPackage_().getPackageName());
@@ -80,14 +80,22 @@ public class HubSpotService {
             properties.put("dealstage", mapBookingStatusToDealStage(booking.getStatus()));
             properties.put("closedate", booking.getBookingDate().toString());
 
-            // Create deal
-            SimplePublicObjectInput dealInput = new SimplePublicObjectInput();
-            dealInput.setProperties(properties);
+            // Create deal request body
+            Map<String, Object> requestBody = new HashMap<>();
+            requestBody.put("properties", properties);
 
-            SimplePublicObject deal = dealsApi.create(dealInput);
-            return "Deal created with ID: " + deal.getId();
+            String response = webClient.post()
+                    .uri("/crm/v3/objects/deals")
+                    .header("Authorization", "Bearer " + hubspotApiKey)
+                    .header("Content-Type", "application/json")
+                    .bodyValue(requestBody)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
 
-        } catch (ApiException e) {
+            return "Deal created successfully: " + response;
+
+        } catch (Exception e) {
             return "Error creating HubSpot deal: " + e.getMessage();
         }
     }
@@ -119,11 +127,16 @@ public class HubSpotService {
                 return "HubSpot API key not configured";
             }
 
-            apiClient.setApiKey(hubspotApiKey);
-            SimplePublicObject contact = contactsApi.getById(email, null, null, null, null, null);
-            return "Contact found: " + contact.getId();
+            String response = webClient.get()
+                    .uri("/crm/v3/objects/contacts/" + email + "?idProperty=email")
+                    .header("Authorization", "Bearer " + hubspotApiKey)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
 
-        } catch (ApiException e) {
+            return "Contact found: " + response;
+
+        } catch (Exception e) {
             return "Contact not found or error: " + e.getMessage();
         }
     }
@@ -137,8 +150,6 @@ public class HubSpotService {
                 return "HubSpot API key not configured";
             }
 
-            apiClient.setApiKey(hubspotApiKey);
-
             // Update contact properties
             Map<String, String> properties = new HashMap<>();
             properties.put("firstname", customer.getFirstName());
@@ -146,21 +157,46 @@ public class HubSpotService {
             properties.put("phone", customer.getPhone() != null ? customer.getPhone() : "");
             properties.put("address", customer.getAddress() != null ? customer.getAddress() : "");
 
-            SimplePublicObjectInput contactInput = new SimplePublicObjectInput();
-            contactInput.setProperties(properties);
+            // Create update request body
+            Map<String, Object> requestBody = new HashMap<>();
+            requestBody.put("properties", properties);
 
-            // First, try to find the contact by email
-            try {
-                SimplePublicObject existingContact = contactsApi.getById(customer.getEmail(), null, null, null, null, null);
-                SimplePublicObject updatedContact = contactsApi.update(existingContact.getId(), contactInput);
-                return "Contact updated with ID: " + updatedContact.getId();
-            } catch (ApiException e) {
-                // Contact doesn't exist, create new one
-                return syncCustomerToHubSpot(customer);
+            String response = webClient.patch()
+                    .uri("/crm/v3/objects/contacts/" + customer.getEmail() + "?idProperty=email")
+                    .header("Authorization", "Bearer " + hubspotApiKey)
+                    .header("Content-Type", "application/json")
+                    .bodyValue(requestBody)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+
+            return "Contact updated successfully: " + response;
+
+        } catch (Exception e) {
+            return "Error updating HubSpot contact: " + e.getMessage();
+        }
+    }
+
+    /**
+     * Test HubSpot connection
+     */
+    public String testConnection() {
+        try {
+            if (hubspotApiKey == null || hubspotApiKey.isEmpty()) {
+                return "HubSpot API key not configured";
             }
 
-        } catch (ApiException e) {
-            return "Error updating HubSpot contact: " + e.getMessage();
+            String response = webClient.get()
+                    .uri("/crm/v3/objects/contacts?limit=1")
+                    .header("Authorization", "Bearer " + hubspotApiKey)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+
+            return "Connection successful: " + response;
+
+        } catch (Exception e) {
+            return "Connection failed: " + e.getMessage();
         }
     }
 }

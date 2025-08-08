@@ -19,8 +19,9 @@ public class HubSpotController {
     @GetMapping("/test")
     public Map<String, String> testHubSpotConnection() {
         Map<String, String> response = new HashMap<>();
-        response.put("status", "HubSpot integration is configured");
-        response.put("message", "Use /api/hubspot/sync-customer or /api/hubspot/sync-booking to test");
+        String result = hubSpotService.testConnection();
+        response.put("status", result);
+        response.put("message", "HubSpot integration test completed");
         return response;
     }
 
