@@ -73,6 +73,13 @@
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
         
+        <!-- HubSpot SDK for CRM integration -->
+        <dependency>
+            <groupId>com.hubspot</groupId>
+            <artifactId>hubspot-api-client</artifactId>
+            <version>9.0.0</version>
+        </dependency>
+        
         <!-- MySQL Driver (uncomment if using MySQL) -->
         <!--
         <dependency>
