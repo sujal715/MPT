@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Products.css';
 
 function Products() {
@@ -32,7 +33,7 @@ function Products() {
                 </ul>
                 <div className="package-price">
                   <span className="price">$299</span>
-                  <button className="book-btn">Book Now</button>
+                  <Link to="/booking" className="book-btn">Book Now</Link>
                 </div>
               </div>
             </div>
@@ -52,7 +53,7 @@ function Products() {
                 </ul>
                 <div className="package-price">
                   <span className="price">$499</span>
-                  <button className="book-btn">Book Now</button>
+                  <Link to="/booking" className="book-btn">Book Now</Link>
                 </div>
               </div>
             </div>
@@ -72,7 +73,7 @@ function Products() {
                 </ul>
                 <div className="package-price">
                   <span className="price">$799</span>
-                  <button className="book-btn">Book Now</button>
+                  <Link to="/booking" className="book-btn">Book Now</Link>
                 </div>
               </div>
             </div>
@@ -100,7 +101,7 @@ function Products() {
                 </ul>
                 <div className="package-price">
                   <span className="price">$399</span>
-                  <button className="book-btn">Book Now</button>
+                  <Link to="/booking" className="book-btn">Book Now</Link>
                 </div>
               </div>
             </div>
@@ -120,7 +121,7 @@ function Products() {
                 </ul>
                 <div className="package-price">
                   <span className="price">$599</span>
-                  <button className="book-btn">Book Now</button>
+                  <Link to="/booking" className="book-btn">Book Now</Link>
                 </div>
               </div>
             </div>
@@ -148,7 +149,7 @@ function Products() {
                 </ul>
                 <div className="package-price">
                   <span className="price">$349</span>
-                  <button className="book-btn">Book Now</button>
+                  <Link to="/booking" className="book-btn">Book Now</Link>
                 </div>
               </div>
             </div>
@@ -168,7 +169,7 @@ function Products() {
                 </ul>
                 <div className="package-price">
                   <span className="price">$549</span>
-                  <button className="book-btn">Book Now</button>
+                  <Link to="/booking" className="book-btn">Book Now</Link>
                 </div>
               </div>
             </div>
@@ -231,7 +232,7 @@ function Products() {
         <div className="container">
           <h2>Ready to Start Your Adventure?</h2>
           <p>Book your lesson today and experience the thrill of water sports with our expert instructors.</p>
-          <button className="cta-btn">Contact Us to Book</button>
+          <Link to="/booking" className="cta-btn">Book Your Consultation</Link>
         </div>
       </section>
     </div>

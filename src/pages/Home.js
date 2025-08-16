@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaMapMarkerAlt, FaEnvelope, FaPhone, FaPlay, FaComments } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import './Home.css';
 
 function Home() {
@@ -10,7 +11,7 @@ function Home() {
         <div className="hero-content">
           <h1>Unlock Your Potential</h1>
           <p>Achieve optimal mobility, strength, and balance with our personalized training programs tailored to your goals and fitness level.</p>
-          <button className="cta-btn">Book Now →</button>
+          <Link to="/booking" className="cta-btn">Book Now →</Link>
         </div>
       </section>
 
@@ -40,7 +41,7 @@ function Home() {
               <h2>Choose your Adventure</h2>
             </div>
             <div className="video-section">
-              <button className="book-call-btn">Book a Free Call</button>
+              <Link to="/booking" className="book-call-btn">Book a Free Call</Link>
               <div className="video-player">
                 <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=500&h=300&fit=crop" alt="Women on jet ski" />
                 <div className="play-overlay">

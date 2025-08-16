@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Services.css';
 
 function Services() {
@@ -27,7 +28,7 @@ function Services() {
                 <li>Equipment provided</li>
                 <li>Progress tracking</li>
               </ul>
-              <button className="service-btn">Learn More</button>
+              <Link to="/booking" className="service-btn">Book Consultation</Link>
             </div>
 
             <div className="service-card">
@@ -39,8 +40,8 @@ function Services() {
                 <li>Advanced foil techniques</li>
                 <li>Wave riding skills</li>
                 <li>Performance analysis</li>
-              </ul>
-              <button className="service-btn">Learn More</button>
+                </ul>
+              <Link to="/booking" className="service-btn">Book Consultation</Link>
             </div>
 
             <div className="service-card">
@@ -53,7 +54,7 @@ function Services() {
                 <li>Advanced wing techniques</li>
                 <li>Wave riding instruction</li>
               </ul>
-              <button className="service-btn">Learn More</button>
+              <Link to="/booking" className="service-btn">Book Consultation</Link>
             </div>
           </div>
         </div>
