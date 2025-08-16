@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaMapMarkerAlt, FaEnvelope, FaPhone, FaPlay, FaComments } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import Chatbot from '../components/Chatbot';
 import './Home.css';
 
 function Home() {
@@ -87,37 +88,46 @@ function Home() {
         </div>
       </section>
 
-      {/* Lessons/Camps Section */}
-      <section className="lessons-camps">
+      {/* Gallery Section */}
+      <section className="gallery-preview">
         <div className="container">
-          <div className="lessons-grid">
-            <div className="lesson-card">
-              <a href="#kitesurfing">VIEW ALL</a>
-              <div className="lesson-image">
-                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200&h=200&fit=crop" alt="Kitesurfing" />
+          <div className="gallery-header">
+            <h2>Gallery Highlights</h2>
+            <p>Take a look at some of our amazing moments and training sessions</p>
+            <Link to="/gallery" className="view-gallery-btn">View Full Gallery</Link>
+          </div>
+          <div className="gallery-grid">
+            <div className="gallery-item">
+              <div className="gallery-image">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=200&fit=crop" alt="Kitesurfing Action" />
+                <div className="gallery-overlay">
+                  <span>Kitesurfing</span>
+                </div>
               </div>
-              <h3>Kitesurfing Lessons</h3>
             </div>
-            <div className="lesson-card">
-              <a href="#hydrofoil">VIEW ALL</a>
-              <div className="lesson-image">
-                <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=200&h=200&fit=crop" alt="Hydrofoil" />
+            <div className="gallery-item">
+              <div className="gallery-image">
+                <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=300&h=200&fit=crop" alt="Hydrofoil Training" />
+                <div className="gallery-overlay">
+                  <span>Hydrofoil</span>
+                </div>
               </div>
-              <h3>Hydrofoil Lessons</h3>
             </div>
-            <div className="lesson-card">
-              <a href="#wingfoil">VIEW ALL</a>
-              <div className="lesson-image">
-                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200&h=200&fit=crop" alt="Wingfoil" />
+            <div className="gallery-item">
+              <div className="gallery-image">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=200&fit=crop" alt="Wing Foil Adventure" />
+                <div className="gallery-overlay">
+                  <span>Wing Foil</span>
+                </div>
               </div>
-              <h3>Wingfoil Lessons</h3>
             </div>
-            <div className="lesson-card">
-              <a href="#camps">VIEW ALL</a>
-              <div className="lesson-image">
-                <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=200&h=200&fit=crop" alt="Kite or Foil Camp" />
+            <div className="gallery-item">
+              <div className="gallery-image">
+                <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=300&h=200&fit=crop" alt="Training Sessions" />
+                <div className="gallery-overlay">
+                  <span>Training</span>
+                </div>
               </div>
-              <h3>Kite or Foil Camp</h3>
             </div>
           </div>
         </div>
@@ -213,6 +223,9 @@ function Home() {
           </form>
         </div>
       </section>
+      
+      {/* Chatbot */}
+      <Chatbot />
     </div>
   );
 }

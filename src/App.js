@@ -17,6 +17,8 @@ import Contact from './pages/Contact';
 import Privacy from './pages/Privacy';
 import FAQ from './pages/FAQ';
 import Booking from './pages/Booking';
+import Admin from './pages/Admin';
+import Gallery from './pages/Gallery';
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/faqs" element={<FAQ />} />
           <Route path="/booking" element={<Booking />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/gallery" element={<Gallery />} />
         </Routes>
         <Footer />
       </div>
