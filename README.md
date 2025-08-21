@@ -1,70 +1,275 @@
-# Getting Started with Create React App
+# Movement Performance Training Website
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, responsive website for Movement Performance Training with admin dashboard, gallery management, and content management system.
 
-## Available Scripts
+## 🚀 Features
 
-In the project directory, you can run:
+- **Admin Dashboard** - Content management system
+- **Interactive Gallery** - Category-based filtering and image management
+- **Smart Chatbot** - AI-powered customer support
+- **Booking System** - Consultation and lesson booking
+- **Responsive Design** - Works on all devices
+- **Real-time Updates** - Dynamic content management
 
-### `npm start`
+## 🏗️ Architecture
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Frontend (React)
+- React 19 with modern hooks
+- Responsive CSS with animations
+- Service layer for API communication
+- State management with React hooks
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Backend Integration
+- RESTful API service layer
+- Authentication and authorization
+- File upload capabilities
+- Error handling and fallbacks
 
-### `npm test`
+## 📋 Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js (v16 or higher)
+- npm or yarn
+- Your backend server running
 
-### `npm run build`
+## 🛠️ Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/12203112-ctrl/MpT.git
+   cd MpT
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. **Environment Configuration**
+   Create a `.env` file in the root directory:
+   ```env
+   # Backend API URL
+   REACT_APP_API_URL=http://localhost:5000/api
+   
+   # App Configuration
+   REACT_APP_NAME=Movement Performance Training
+   REACT_APP_VERSION=1.0.0
+   
+   # Feature Flags
+   REACT_APP_ENABLE_CHATBOT=true
+   ```
 
-### `npm run eject`
+4. **Start the development server**
+   ```bash
+   npm start
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🔗 Backend Connection
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### API Endpoints Expected
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Your backend should provide these endpoints:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### Authentication
+- `POST /api/auth/login` - User login
+- `POST /api/auth/logout` - User logout
+- `GET /api/auth/me` - Get current user
 
-## Learn More
+#### Gallery Management
+- `GET /api/gallery` - Get all gallery items
+- `GET /api/gallery/category/:category` - Get items by category
+- `POST /api/gallery` - Create new item (admin)
+- `PUT /api/gallery/:id` - Update item (admin)
+- `DELETE /api/gallery/:id` - Delete item (admin)
+- `POST /api/gallery/upload` - Upload image (admin)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### Services Management
+- `GET /api/services` - Get all services
+- `GET /api/services/:id` - Get service by ID
+- `POST /api/services` - Create service (admin)
+- `PUT /api/services/:id` - Update service (admin)
+- `DELETE /api/services/:id` - Delete service (admin)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### Testimonials
+- `GET /api/testimonials` - Get all testimonials
+- `POST /api/testimonials` - Create testimonial (admin)
+- `PUT /api/testimonials/:id` - Update testimonial (admin)
+- `DELETE /api/testimonials/:id` - Delete testimonial (admin)
 
-### Code Splitting
+#### Bookings
+- `GET /api/bookings` - Get all bookings (admin)
+- `POST /api/bookings` - Create new booking
+- `PUT /api/bookings/:id` - Update booking (admin)
+- `DELETE /api/bookings/:id` - Delete booking (admin)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### API Response Format
 
-### Analyzing the Bundle Size
+All API responses should follow this format:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```json
+{
+  "success": true,
+  "data": { ... },
+  "message": "Operation successful"
+}
+```
 
-### Making a Progressive Web App
+Error responses:
+```json
+{
+  "success": false,
+  "error": "Error message",
+  "message": "Detailed error description"
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Authentication
 
-### Advanced Configuration
+The frontend expects JWT-based authentication:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+1. **Login Response**
+   ```json
+   {
+     "success": true,
+     "data": {
+       "token": "jwt_token_here",
+       "user": { ... }
+     }
+   }
+   ```
 
-### Deployment
+2. **Request Headers**
+   ```
+   Authorization: Bearer <jwt_token>
+   Content-Type: application/json
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 🎯 Usage
 
-### `npm run build` fails to minify
+### Admin Dashboard
+- Navigate to `/admin`
+- Login with your backend credentials
+- Manage gallery, services, testimonials, and bookings
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Gallery
+- Navigate to `/gallery`
+- Filter by categories
+- Click images to view full-size
+- Admin can add/edit/delete items
+
+### Chatbot
+- Available on the home page
+- Pre-programmed responses to common questions
+- Helps guide users to booking
+
+## 🔧 Development
+
+### Project Structure
+```
+src/
+├── components/          # Reusable components
+│   ├── Header.js       # Navigation header
+│   ├── Footer.js       # Site footer
+│   └── Chatbot.js      # Interactive chatbot
+├── pages/              # Page components
+│   ├── Home.js         # Homepage
+│   ├── Gallery.js      # Gallery page
+│   ├── Admin.js        # Admin dashboard
+│   └── ...
+├── services/           # API services
+│   ├── api.js          # Base API service
+│   ├── authService.js  # Authentication
+│   ├── galleryService.js # Gallery management
+│   └── ...
+└── ...
+```
+
+### Adding New Features
+
+1. **Create API Service**
+   ```javascript
+   // src/services/newFeatureService.js
+   import apiService from './api';
+   
+   class NewFeatureService {
+     async getData() {
+       return await apiService.get('/new-feature');
+     }
+   }
+   
+   export default new NewFeatureService();
+   ```
+
+2. **Update Component**
+   ```javascript
+   import newFeatureService from '../services/newFeatureService';
+   
+   // Use in component
+   const data = await newFeatureService.getData();
+   ```
+
+## 🚀 Deployment
+
+### Build for Production
+```bash
+npm run build
+```
+
+### Environment Variables for Production
+```env
+REACT_APP_API_URL=https://your-backend-domain.com/api
+NODE_ENV=production
+```
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+1. **CORS Errors**
+   - Ensure your backend allows requests from frontend domain
+   - Check CORS configuration in backend
+
+2. **Authentication Issues**
+   - Verify JWT token format
+   - Check token expiration
+   - Ensure proper Authorization header
+
+3. **API Connection**
+   - Verify backend URL in `.env` file
+   - Check if backend server is running
+   - Test API endpoints with Postman/curl
+
+### Debug Mode
+Enable debug logging by setting in `.env`:
+```env
+REACT_APP_DEBUG=true
+```
+
+## 📱 Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+- Mobile browsers (iOS Safari, Chrome Mobile)
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 📞 Support
+
+For support and questions:
+- Email: info@movementtraining.com
+- Phone: 04 99 471 101
+
+---
+
+**Built with ❤️ for Movement Performance Training**

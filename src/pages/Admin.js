@@ -1,4 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import authService from '../services/authService';
+import galleryService from '../services/galleryService';
+import servicesService from '../services/servicesService';
+import testimonialsService from '../services/testimonialsService';
+import bookingsService from '../services/bookingsService';
+import adminService from '../services/adminService';
+import packagesService from '../services/packagesService';
 import './Admin.css';
 
 const Admin = () => {
@@ -7,26 +14,30 @@ const Admin = () => {
   const [password, setPassword] = useState('');
   const [activeTab, setActiveTab] = useState('dashboard');
 
-  // Mock admin credentials (in real app, this would be handled securely)
-  const adminCredentials = {
-    username: 'admin',
-    password: 'admin123'
-  };
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (username === adminCredentials.username && password === adminCredentials.password) {
+    try {
+      const response = await authService.login({ username, password });
       setIsLoggedIn(true);
       setUsername('');
       setPassword('');
-    } else {
-      alert('Invalid credentials. Please try again.');
+      console.log('Login successful:', response);
+    } catch (error) {
+      alert(`Login failed: ${error.message}`);
     }
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setActiveTab('dashboard');
+  const handleLogout = async () => {
+    try {
+      await authService.logout();
+      setIsLoggedIn(false);
+      setActiveTab('dashboard');
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Still logout locally even if backend call fails
+      setIsLoggedIn(false);
+      setActiveTab('dashboard');
+    }
   };
 
   if (!isLoggedIn) {
@@ -68,9 +79,9 @@ const Admin = () => {
           </form>
           
           <div className="login-info">
-            <p><strong>Demo Credentials:</strong></p>
-            <p>Username: admin</p>
-            <p>Password: admin123</p>
+            <p><strong>Admin Login:</strong></p>
+            <p>Use your backend admin credentials</p>
+            <p>Contact your system administrator</p>
           </div>
         </div>
       </div>

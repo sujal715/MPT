@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import galleryService from '../services/galleryService';
 import './Gallery.css';
 
 const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedImage, setSelectedImage] = useState(null);
+  const [galleryItems, setGalleryItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const categories = [
     { id: 'all', name: 'All Photos', icon: '📸' },
@@ -14,104 +18,75 @@ const Gallery = () => {
     { id: 'locations', name: 'Locations', icon: '📍' }
   ];
 
-  const galleryItems = [
-    {
-      id: 1,
-      src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop',
-      alt: 'Kitesurfing on the waves',
-      category: 'kitesurfing',
-      title: 'Wave Riding',
-      description: 'Advanced kitesurfing techniques in perfect conditions'
-    },
-    {
-      id: 2,
-      src: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop',
-      alt: 'Hydrofoil gliding above water',
-      category: 'hydrofoil',
-      title: 'Hydrofoil Mastery',
-      description: 'Smooth hydrofoil riding with expert instruction'
-    },
-    {
-      id: 3,
-      src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop',
-      alt: 'Wing foiling adventure',
-      category: 'wingfoil',
-      title: 'Wing Foil Adventure',
-      description: 'Exploring the exciting world of wing foiling'
-    },
-    {
-      id: 4,
-      src: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop',
-      alt: 'Training session in progress',
-      category: 'training',
-      title: 'Skill Development',
-      description: 'Focused training sessions for all skill levels'
-    },
-    {
-      id: 5,
-      src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop',
-      alt: 'Beautiful training location',
-      category: 'locations',
-      title: 'Perfect Conditions',
-      description: 'Our stunning training locations around the Gold Coast'
-    },
-    {
-      id: 6,
-      src: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop',
-      alt: 'Group training session',
-      category: 'training',
-      title: 'Group Learning',
-      description: 'Fun and effective group training sessions'
-    },
-    {
-      id: 7,
-      src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop',
-      alt: 'Advanced kitesurfing tricks',
-      category: 'kitesurfing',
-      title: 'Advanced Techniques',
-      description: 'Mastering complex kitesurfing maneuvers'
-    },
-    {
-      id: 8,
-      src: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop',
-      alt: 'Hydrofoil wave riding',
-      category: 'hydrofoil',
-      title: 'Wave Riding on Foil',
-      description: 'Taking hydrofoil to the next level'
-    },
-    {
-      id: 9,
-      src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop',
-      alt: 'Wing foil in action',
-      category: 'wingfoil',
-      title: 'Wing Foil Action',
-      description: 'Dynamic wing foiling in perfect conditions'
-    },
-    {
-      id: 10,
-      src: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop',
-      alt: 'Training equipment setup',
-      category: 'training',
-      title: 'Equipment Setup',
-      description: 'Proper setup and safety equipment preparation'
-    },
-    {
-      id: 11,
-      src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop',
-      alt: 'Scenic training location',
-      category: 'locations',
-      title: 'Scenic Views',
-      description: 'Breathtaking views from our training spots'
-    },
-    {
-      id: 12,
-      src: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop',
-      alt: 'Student progress celebration',
-      category: 'training',
-      title: 'Student Success',
-      description: 'Celebrating student achievements and progress'
-    }
-  ];
+  // Fetch gallery data from backend
+  useEffect(() => {
+    const fetchGalleryData = async () => {
+      try {
+        setLoading(true);
+        const data = await galleryService.getAllGalleryItems();
+        setGalleryItems(data);
+        setError(null);
+      } catch (err) {
+        setError('Failed to load gallery. Using sample data.');
+        // Fallback to sample data if backend is not available
+        setGalleryItems([
+          {
+            id: 1,
+            src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop',
+            alt: 'Kitesurfing on the waves',
+            category: 'kitesurfing',
+            title: 'Wave Riding',
+            description: 'Advanced kitesurfing techniques in perfect conditions'
+          },
+          {
+            id: 2,
+            src: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop',
+            alt: 'Hydrofoil gliding above water',
+            category: 'hydrofoil',
+            title: 'Hydrofoil Mastery',
+            description: 'Smooth hydrofoil riding with expert instruction'
+          },
+          {
+            id: 3,
+            src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop',
+            alt: 'Wing foiling adventure',
+            category: 'wingfoil',
+            title: 'Wing Foil Adventure',
+            description: 'Exploring the exciting world of wing foiling'
+          },
+          {
+            id: 4,
+            src: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop',
+            alt: 'Training session in progress',
+            category: 'training',
+            title: 'Skill Development',
+            description: 'Focused training sessions for all skill levels'
+          },
+          {
+            id: 5,
+            src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop',
+            alt: 'Beautiful training location',
+            category: 'locations',
+            title: 'Perfect Conditions',
+            description: 'Our stunning training locations around the Gold Coast'
+          },
+          {
+            id: 6,
+            src: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop',
+            alt: 'Group training session',
+            category: 'training',
+            title: 'Group Learning',
+            description: 'Fun and effective group sessions'
+          }
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGalleryData();
+  }, []);
+    
 
   const filteredItems = selectedCategory === 'all' 
     ? galleryItems 
@@ -156,7 +131,21 @@ const Gallery = () => {
       {/* Gallery Grid */}
       <section className="gallery-section">
         <div className="container">
-          <div className="gallery-grid">
+          {loading && (
+            <div className="loading-state">
+              <div className="loading-spinner"></div>
+              <p>Loading gallery...</p>
+            </div>
+          )}
+          
+          {error && (
+            <div className="error-state">
+              <p>⚠️ {error}</p>
+            </div>
+          )}
+          
+          {!loading && !error && (
+            <div className="gallery-grid">
             {filteredItems.map(item => (
               <div key={item.id} className="gallery-item" onClick={() => openImageModal(item)}>
                 <div className="gallery-image">
@@ -171,7 +160,8 @@ const Gallery = () => {
                 </div>
               </div>
             ))}
-          </div>
+            </div>
+          )}
         </div>
       </section>
 
