@@ -14,10 +14,10 @@
 - Connect repository: `sujal715/MPT`
 - Click **"Connect"**
 
-### **3. Configure Settings**
+### **3. Configure Settings (IMPORTANT!)**
 ```
 Name: mpt-backend
-Environment: Java
+Environment: Java (MUST SELECT THIS - don't use auto-detect!)
 Region: US East (or closest)
 Branch: main
 Build Command: ./mvnw clean install
@@ -49,6 +49,13 @@ API Base URL: https://mpt-backend.onrender.com/api
 ✅ **Professional** - looks like production app
 ✅ **Free forever** - no hidden costs
 ✅ **Auto-deploys** - updates when you push to GitHub
+
+## **Troubleshooting:**
+- **If it still fails**: Delete the service and recreate it
+- **Make sure to select "Java"** as environment (not auto-detect)
+- **Check Render logs** if deployment fails
+- **Make sure your app compiles locally first**
+- **CORS is already configured for Render URLs**
 
 ## **Need Help?**
 - Check Render logs if deployment fails
