@@ -75,7 +75,7 @@ public class HubSpotService {
 
             // Create deal properties
             Map<String, String> properties = new HashMap<>();
-            properties.put("dealname", "Booking #" + booking.getBookingId() + " - " + booking.getPackage_().getPackageName());
+            properties.put("dealname", "Booking #" + booking.getBookingId() + " - " + booking.getPackageItem().getPackageName());
             properties.put("amount", booking.getTotalAmount() != null ? booking.getTotalAmount().toString() : "0");
             properties.put("dealstage", mapBookingStatusToDealStage(booking.getStatus()));
             properties.put("closedate", booking.getBookingDate().toString());

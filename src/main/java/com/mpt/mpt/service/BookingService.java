@@ -20,9 +20,14 @@ public class BookingService {
      * Create a new booking
      */
     public Booking createBooking(Customer customer, com.mpt.mpt.entity.Package package_, 
-                               LocalDate bookingDate, LocalTime bookingTime, String notes) {
-        Booking booking = new Booking(bookingDate, bookingTime, customer, package_);
-        booking.setTotalAmount(package_.getPrice());
+                             LocalDate bookingDate, LocalTime bookingTime, String notes) {
+        Booking booking = new Booking(); // JPA-friendly no-arg constructor
+        booking.setBookingDate(bookingDate);
+        booking.setBookingTime(bookingTime);
+        booking.setCustomer(customer);
+        booking.setPackageItem(package_);
+        booking.setStatus(Booking.BookingStatus.PENDING);
+        booking.setTotalAmount(package_ != null ? package_.getPrice() : null);
         booking.setNotes(notes);
         return booking;
     }
@@ -36,6 +41,7 @@ public class BookingService {
     
     /**
      * Calculate total revenue for a date range
+     *
      */
     public BigDecimal calculateRevenueForDateRange(LocalDate startDate, LocalDate endDate) {
         // This would typically query the database
@@ -81,4 +87,4 @@ public class BookingService {
         public BigDecimal getTotalRevenue() { return totalRevenue; }
         public void setTotalRevenue(BigDecimal totalRevenue) { this.totalRevenue = totalRevenue; }
     }
-} 
+}

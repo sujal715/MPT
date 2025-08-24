@@ -1,9 +1,21 @@
 package com.mpt.mpt.entity;
 
-import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Payment")
@@ -11,38 +23,38 @@ public class Payment {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PaymentID")
+    @Column(name = "payment_id")
     private Integer paymentId;
     
-    @Column(name = "PaymentDate", nullable = false)
+    @Column(name = "payment_date", nullable = false)
     private LocalDate paymentDate;
     
-    @Column(name = "Amount", nullable = false, precision = 10, scale = 2)
+    @Column(name = "amount", nullable = false, precision = 10, scale = 2)
     private BigDecimal amount;
     
     @Enumerated(EnumType.STRING)
-    @Column(name = "PaymentMethod", nullable = false)
+    @Column(name = "payment_method", nullable = false)
     private PaymentMethod paymentMethod;
     
     @Enumerated(EnumType.STRING)
-    @Column(name = "PaymentStatus")
+    @Column(name = "payment_status")
     private PaymentStatus paymentStatus;
     
-    @Column(name = "TransactionReference", length = 100)
+    @Column(name = "transaction_reference", length = 100)
     private String transactionReference;
     
-    @Column(name = "Notes", columnDefinition = "TEXT")
+    @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
     
-    @Column(name = "CreatedAt")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
     
-    @Column(name = "UpdatedAt")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
     // Relationships
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BookingID", nullable = false)
+    @JoinColumn(name = "booking_id", nullable = false)
     private Booking booking;
     
     // Constructors

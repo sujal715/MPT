@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,32 +23,33 @@ public class Package {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PackageID")
+    @Column(name = "package_id")
     private Integer packageId;
     
-    @Column(name = "PackageName", nullable = false, length = 100)
+    @Column(name = "package_name", nullable = false, length = 100)
     private String packageName;
     
-    @Column(name = "Price", nullable = false, precision = 10, scale = 2)
+    @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
     
-    @Column(name = "Duration", length = 50)
+    @Column(name = "duration", length = 50)
     private String duration;
     
-    @Column(name = "Description", columnDefinition = "TEXT")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
     
-    @Column(name = "IsActive")
+    @Column(name = "is_active")
     private Boolean isActive;
     
-    @Column(name = "CreatedAt")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
     
-    @Column(name = "UpdatedAt")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
     // Relationships
-    @OneToMany(mappedBy = "package_", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "packageItem", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Booking> bookings;
     
     // Constructors

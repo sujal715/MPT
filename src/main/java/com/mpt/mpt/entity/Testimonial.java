@@ -1,8 +1,18 @@
 package com.mpt.mpt.entity;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Testimonial")
@@ -10,30 +20,30 @@ public class Testimonial {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "TestimonialID")
+    @Column(name = "testimonial_id")
     private Integer testimonialId;
     
-    @Column(name = "Comment", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "comment", nullable = false, columnDefinition = "TEXT")
     private String comment;
     
-    @Column(name = "DateSubmitted", nullable = false)
+    @Column(name = "date_submitted", nullable = false)
     private LocalDate dateSubmitted;
     
-    @Column(name = "Rating")
+    @Column(name = "rating")
     private Integer rating;
     
-    @Column(name = "IsApproved")
+    @Column(name = "is_approved")
     private Boolean isApproved;
     
-    @Column(name = "CreatedAt")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
     
-    @Column(name = "UpdatedAt")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
     // Relationships
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CustomerID", nullable = false)
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
     
     // Constructors

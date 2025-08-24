@@ -19,7 +19,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     List<Booking> findByCustomerCustomerId(Integer customerId);
     
     // Find bookings by package
-    @Query("SELECT b FROM Booking b WHERE b.package_.packageId = :packageId")
+    @Query("SELECT b FROM Booking b WHERE b.packageItem.packageId = :packageId")
     List<Booking> findByPackageId(@Param("packageId") Integer packageId);
     
     // Find bookings by status
@@ -52,7 +52,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
                                  @Param("endDate") LocalDate endDate);
     
     // Find most popular packages
-    @Query("SELECT b.package_.packageId, b.package_.packageName, COUNT(b) FROM Booking b GROUP BY b.package_.packageId, b.package_.packageName ORDER BY COUNT(b) DESC")
+    @Query("SELECT b.packageItem.packageId, b.packageItem.packageName, COUNT(b) FROM Booking b GROUP BY b.packageItem.packageId, b.packageItem.packageName ORDER BY COUNT(b) DESC")
     List<Object[]> findMostPopularPackages();
     
     // Find bookings with payments
