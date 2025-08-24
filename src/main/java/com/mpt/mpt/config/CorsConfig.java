@@ -19,6 +19,9 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedOrigins(
                     "http://localhost:3000",  // React development server
                     "http://localhost:3001",  // Alternative React port
+                    "http://192.168.1.4:3000",  // Your friend's React app on same network
+                    "http://192.168.1.4:3001",  // Alternative port on same network
+                    "https://brown-rivers-show.loca.lt",  // Public tunnel URL - your friend can use this!
                     "https://your-react-app.netlify.app",  // Your production React app
                     "https://your-react-app.vercel.app"    // Alternative production domain
                 )
