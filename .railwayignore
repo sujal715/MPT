@@ -1,19 +1,16 @@
-# Ignore Java files - force Railway to use Node.js
-pom.xml
-.mvn/
-target/
-*.jar
-Dockerfile
-system.properties
-src/main/java/
-src/main/resources/
-src/test/
+# Only keep Node.js files for Railway deployment
+# Ignore everything except React frontend and Node.js backend
 
-# Keep only Node.js files
+# Keep these essential files
 !package.json
 !package-lock.json
 !backend/
-!src/ (React frontend)
+!src/
 !public/
 !railway.json
 !railway.toml
+!nixpacks.toml
+!.railwayignore
+
+# Ignore everything else
+*
