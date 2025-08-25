@@ -2,7 +2,7 @@
 builder = "nixpacks"
 
 [deploy]
-startCommand = "npm run start:fullstack"
+startCommand = "cd backend && npm start"
 healthcheckPath = "/api/health"
 
 [build.environment]
