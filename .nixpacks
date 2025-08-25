@@ -1,0 +1,2 @@
+providers = ["nodejs"]
+start_cmd = "cd backend && npm start"
