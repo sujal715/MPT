@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaMapMarkerAlt, FaEnvelope, FaPhone, FaClock } from 'react-icons/fa';
+import InteractiveMap from '../components/InteractiveMap';
 import './Contact.css';
 
 function Contact() {
@@ -140,14 +141,14 @@ function Contact() {
         <div className="container">
           <h2>Find Us</h2>
           <div className="location-content">
-            <div className="map-container">
-              <div className="map-placeholder">
-                <h3>Interactive Map</h3>
-                <p>Ezyfit Health Club, Birtinya, QLD 4575</p>
-                <p>Sunshine Coast, Queensland, Australia</p>
-                <button className="directions-btn">Get Directions</button>
-              </div>
-            </div>
+            <InteractiveMap 
+              location={{
+                name: 'Ezyfit Health Club',
+                address: 'Birtinya, QLD 4575',
+                city: 'Sunshine Coast, Queensland, Australia',
+                coordinates: { lat: -26.7500, lng: 153.1167 }
+              }}
+            />
             <div className="location-details">
               <h3>Getting Here</h3>
               <div className="transport-options">

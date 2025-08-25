@@ -1,5 +1,6 @@
 import React from 'react';
 import './About.css';
+import InteractiveMap from '../components/InteractiveMap';
 
 function About() {
   return (
@@ -135,12 +136,14 @@ function About() {
                 <li>Easy access and parking</li>
               </ul>
             </div>
-            <div className="location-map">
-              <div className="map-placeholder">
-                <p>Interactive Map</p>
-                <p>Ezyfit Health Club, Birtinya, QLD 4575</p>
-              </div>
-            </div>
+            <InteractiveMap 
+              location={{
+                name: 'Ezyfit Health Club',
+                address: 'Birtinya, QLD 4575',
+                city: 'Sunshine Coast, Queensland, Australia',
+                coordinates: { lat: -26.7500, lng: 153.1167 }
+              }}
+            />
           </div>
         </div>
       </section>

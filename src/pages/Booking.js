@@ -2,21 +2,63 @@ import React, { useState } from 'react';
 import './Booking.css';
 
 const Booking = () => {
-  const [selectedTime, setSelectedTime] = useState('20:00');
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [isAM, setIsAM] = useState(false);
+  const [formData, setFormData] = useState({
+    customerName: '',
+    customerEmail: '',
+    customerPhone: '',
+    packageId: 1,
+    selectedDate: '',
+    selectedTime: '10:00',
+    specialRequests: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [bookingResult, setBookingResult] = useState(null);
 
-  const handleTimeChange = (newTime) => {
-    setSelectedTime(newTime);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
-  const handleDateSelect = (date) => {
-    setSelectedDate(date);
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setBookingResult(null);
 
-  const handleBooking = () => {
-    // Handle booking logic here
-    alert('Booking functionality would be implemented here');
+    try {
+      const response = await fetch('http://localhost:8080/api/bookings/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.json();
+      setBookingResult(result);
+      
+      if (result.success) {
+        // Reset form on success
+        setFormData({
+          customerName: '',
+          customerEmail: '',
+          customerPhone: '',
+          packageId: 1,
+          selectedDate: '',
+          selectedTime: '10:00',
+          specialRequests: ''
+        });
+      }
+    } catch (error) {
+      setBookingResult({
+        success: false,
+        message: 'Error connecting to server: ' + error.message
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -52,101 +94,126 @@ const Booking = () => {
           </p>
         </div>
 
-        {/* Right Side - Booking Widget */}
+        {/* Right Side - Booking Form */}
         <div className="booking-widget">
-          {/* Time Selection */}
-          <div className="time-selection">
-            <div className="time-display">
-              <span className="clock-icon">🕐</span>
-              <span className="time-value">{selectedTime}</span>
+          <h3>Book Your Session</h3>
+          
+          <form onSubmit={handleSubmit} className="booking-form">
+            <div className="form-group">
+              <label htmlFor="customerName">Full Name *</label>
+              <input
+                type="text"
+                id="customerName"
+                name="customerName"
+                value={formData.customerName}
+                onChange={handleInputChange}
+                required
+                placeholder="Enter your full name"
+              />
             </div>
-            <div className="am-pm-buttons">
-              <button 
-                className={`am-pm-btn ${!isAM ? 'active' : ''}`}
-                onClick={() => setIsAM(false)}
+
+            <div className="form-group">
+              <label htmlFor="customerEmail">Email *</label>
+              <input
+                type="email"
+                id="customerEmail"
+                name="customerEmail"
+                value={formData.customerEmail}
+                onChange={handleInputChange}
+                required
+                placeholder="Enter your email"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="customerPhone">Phone Number</label>
+              <input
+                type="tel"
+                id="customerPhone"
+                name="customerPhone"
+                value={formData.customerPhone}
+                onChange={handleInputChange}
+                placeholder="Enter your phone number"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="packageId">Training Package *</label>
+              <select
+                id="packageId"
+                name="packageId"
+                value={formData.packageId}
+                onChange={handleInputChange}
+                required
               >
-                AM
-              </button>
-              <button 
-                className={`am-pm-btn ${isAM ? 'active' : ''}`}
-                onClick={() => setIsAM(true)}
-              >
-                PM
-              </button>
+                <option value={1}>Basic Package - $99.99 (1 hour)</option>
+                <option value={2}>Premium Package - $199.99 (2 hours)</option>
+                <option value={3}>Deluxe Package - $299.99 (3 hours)</option>
+                <option value={4}>VIP Package - $499.99 (4 hours)</option>
+                <option value={5}>Corporate Package - $799.99 (6 hours)</option>
+              </select>
             </div>
-            <div className="time-controls">
-              <button className="time-btn">Minute</button>
-              <button className="time-btn">Cancel</button>
-              <button className="time-btn">OK</button>
-            </div>
-          </div>
 
-          {/* Meet with Chloe */}
-          <div className="meet-chloe">
-            <div className="chloe-profile">
-              <div className="chloe-avatar">👩‍🦰</div>
-              <h3>Meet with Chloe Barre</h3>
+            <div className="form-group">
+              <label htmlFor="selectedDate">Preferred Date *</label>
+              <input
+                type="date"
+                id="selectedDate"
+                name="selectedDate"
+                value={formData.selectedDate}
+                onChange={handleInputChange}
+                required
+                min={new Date().toISOString().split('T')[0]}
+              />
             </div>
-          </div>
 
-          {/* Calendar */}
-          <div className="calendar-section">
-            <div className="calendar-header">
-              <button className="calendar-nav">◀</button>
-              <h4>May 2025</h4>
-              <button className="calendar-nav">▶</button>
+            <div className="form-group">
+              <label htmlFor="selectedTime">Preferred Time *</label>
+              <input
+                type="time"
+                id="selectedTime"
+                name="selectedTime"
+                value={formData.selectedTime}
+                onChange={handleInputChange}
+                required
+              />
             </div>
-            <div className="calendar-grid">
-              <div className="calendar-days">
-                <span>SUN</span>
-                <span>MON</span>
-                <span>TUE</span>
-                <span>WED</span>
-                <span>THU</span>
-                <span>FRI</span>
-                <span>SAT</span>
-              </div>
-              <div className="calendar-dates">
-                {/* Calendar dates would be generated dynamically */}
-                <span className="date faded">1</span>
-                <span className="date faded">2</span>
-                <span className="date faded">3</span>
-                <span className="date">4</span>
-                <span className="date">5</span>
-                <span className="date">6</span>
-                <span className="date">7</span>
-                <span className="date">8</span>
-                <span className="date">9</span>
-                <span className="date">10</span>
-                <span className="date">11</span>
-                <span className="date">12</span>
-                <span className="date">13</span>
-                <span className="date">14</span>
-                <span className="date">15</span>
-                <span className="date">16</span>
-                <span className="date">17</span>
-                <span className="date">18</span>
-                <span className="date">19</span>
-                <span className="date">20</span>
-                <span className="date">21</span>
-                <span className="date">22</span>
-                <span className="date">23</span>
-                <span className="date">24</span>
-                <span className="date">25</span>
-                <span className="date">26</span>
-                <span className="date">27</span>
-                <span className="date">28</span>
-                <span className="date">29</span>
-                <span className="date">30</span>
-                <span className="date">31</span>
-              </div>
-            </div>
-          </div>
 
-          {/* Book Now Button */}
-          <button className="book-now-btn" onClick={handleBooking}>
-            Book Now →
-          </button>
+            <div className="form-group">
+              <label htmlFor="specialRequests">Special Requests</label>
+              <textarea
+                id="specialRequests"
+                name="specialRequests"
+                value={formData.specialRequests}
+                onChange={handleInputChange}
+                placeholder="Any special requirements or notes..."
+                rows="3"
+              />
+            </div>
+
+            <button 
+              type="submit" 
+              className="book-now-btn" 
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Booking...' : 'Book Now →'}
+            </button>
+          </form>
+
+          {/* Booking Result */}
+          {bookingResult && (
+            <div className={`booking-result ${bookingResult.success ? 'success' : 'error'}`}>
+              <h4>{bookingResult.success ? '✅ Success!' : '❌ Error'}</h4>
+              <p>{bookingResult.message}</p>
+              {bookingResult.success && bookingResult.data && (
+                <div className="booking-details">
+                  <p><strong>Booking ID:</strong> {bookingResult.data.bookingId}</p>
+                  <p><strong>Total Amount:</strong> ${bookingResult.data.totalAmount}</p>
+                  <p><strong>Status:</strong> {bookingResult.data.status}</p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

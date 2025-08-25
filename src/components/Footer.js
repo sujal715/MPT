@@ -8,21 +8,21 @@ const Footer = () => {
       {/* Social Media Top Section */}
       <div className="social-media-top">
         <div className="social-icons">
-          <a href="#" className="social-icon facebook">f</a>
-          <a href="#" className="social-icon linkedin">in</a>
-          <a href="#" className="social-icon twitter">🐦</a>
-          <a href="#" className="social-icon instagram">📷</a>
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon facebook">f</a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-icon linkedin">in</a>
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="social-icon twitter">🐦</a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon instagram">📷</a>
         </div>
       </div>
 
       <div className="footer-content">
         <div className="footer-section">
-          <div className="footer-logo">
+          <Link to="/" className="footer-logo">
             <div className="footer-logo-icon">🌊</div>
             <div className="footer-logo-text">
               Movement Performance Training
             </div>
-          </div>
+          </Link>
           <div className="tripadvisor-badge">
             2021 Travellers' Choice Tripadvisor
           </div>

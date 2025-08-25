@@ -1,7 +1,68 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Resources.css';
+import WeatherWidget from '../components/WeatherWidget';
+import resourcesService from '../services/resourcesService';
 
 function Resources() {
+  const [isWeatherOpen, setIsWeatherOpen] = useState(false);
+  const [isWeatherLoading, setIsWeatherLoading] = useState(false);
+  const [downloadStates, setDownloadStates] = useState({
+    kitesurfing: false,
+    hydrofoil: false,
+    wingFoil: false
+  });
+  const [downloadSuccess, setDownloadSuccess] = useState(null);
+
+  const openWeather = async () => {
+    setIsWeatherLoading(true);
+    // Small delay to show loading state
+    await new Promise(resolve => setTimeout(resolve, 500));
+    setIsWeatherLoading(false);
+    setIsWeatherOpen(true);
+  };
+  
+  const closeWeather = () => setIsWeatherOpen(false);
+
+  const handleDownload = async (resourceKey) => {
+    setDownloadStates(prev => ({ ...prev, [resourceKey]: true }));
+    setDownloadSuccess(null);
+    
+    try {
+      await resourcesService.downloadResource(resourceKey);
+      
+      // Show success message
+      const resourceName = resourcesService.getResource(resourceKey).title;
+      setDownloadSuccess({
+        message: `✅ ${resourceName} downloaded successfully!`,
+        resourceKey
+      });
+      
+      // Reset download state
+      setTimeout(() => {
+        setDownloadStates(prev => ({ ...prev, [resourceKey]: false }));
+      }, 1000);
+      
+      // Clear success message after 5 seconds
+      setTimeout(() => {
+        setDownloadSuccess(null);
+      }, 5000);
+      
+    } catch (error) {
+      console.error('Download failed:', error);
+      setDownloadSuccess({
+        message: `❌ Download failed: ${error.message}`,
+        resourceKey,
+        isError: true
+      });
+      setDownloadStates(prev => ({ ...prev, [resourceKey]: false }));
+      
+      // Clear error message after 5 seconds
+      setTimeout(() => {
+        setDownloadSuccess(null);
+      }, 5000);
+    }
+  };
+
   return (
     <div className="resources-page">
       {/* Hero Section */}
@@ -20,17 +81,35 @@ function Resources() {
             <div className="resource-card">
               <h3>Kitesurfing Safety</h3>
               <p>Essential safety guidelines for kitesurfing, including weather conditions, equipment checks, and emergency procedures.</p>
-              <button className="resource-btn">Download Guide</button>
+              <button 
+                className={`resource-btn ${downloadStates.kitesurfing ? 'downloading' : ''}`}
+                onClick={() => handleDownload('kitesurfing')}
+                disabled={downloadStates.kitesurfing}
+              >
+                {downloadStates.kitesurfing ? '📥 Downloading...' : '📥 Download Guide'}
+              </button>
             </div>
             <div className="resource-card">
               <h3>Hydrofoil Safety</h3>
               <p>Safety protocols for hydrofoiling, including foil handling, launch techniques, and emergency procedures.</p>
-              <button className="resource-btn">Download Guide</button>
+              <button 
+                className={`resource-btn ${downloadStates.hydrofoil ? 'downloading' : ''}`}
+                onClick={() => handleDownload('hydrofoil')}
+                disabled={downloadStates.hydrofoil}
+              >
+                {downloadStates.hydrofoil ? '📥 Downloading...' : '📥 Download Guide'}
+              </button>
             </div>
             <div className="resource-card">
               <h3>Wing Foil Safety</h3>
               <p>Comprehensive safety guide for wing foiling, covering wing control, foil safety, and rescue procedures.</p>
-              <button className="resource-btn">Download Guide</button>
+              <button 
+                className={`resource-btn ${downloadStates.wingFoil ? 'downloading' : ''}`}
+                onClick={() => handleDownload('wingFoil')}
+                disabled={downloadStates.wingFoil}
+              >
+                {downloadStates.wingFoil ? '📥 Downloading...' : '📥 Download Guide'}
+              </button>
             </div>
           </div>
         </div>
@@ -91,7 +170,13 @@ function Resources() {
               <h3>Current Conditions</h3>
               <div className="weather-display">
                 <p>Check our live weather feed for real-time conditions</p>
-                <button className="weather-btn">View Live Weather</button>
+                <button 
+                  className={`weather-btn ${isWeatherLoading ? 'loading' : ''}`} 
+                  onClick={openWeather}
+                  disabled={isWeatherLoading}
+                >
+                  {isWeatherLoading ? 'Loading...' : 'View Live Weather'}
+                </button>
               </div>
             </div>
           </div>
@@ -131,6 +216,22 @@ function Resources() {
           <button className="contact-btn">Get in Touch</button>
         </div>
       </section>
+
+      {/* Download Success Notification */}
+      {downloadSuccess && (
+        <div className={`download-notification ${downloadSuccess.isError ? 'error' : 'success'}`}>
+          <span className="notification-message">{downloadSuccess.message}</span>
+          <button 
+            className="notification-close" 
+            onClick={() => setDownloadSuccess(null)}
+          >
+            ×
+          </button>
+        </div>
+      )}
+
+      {/* Weather Widget Modal */}
+      <WeatherWidget isOpen={isWeatherOpen} onClose={closeWeather} />
     </div>
   );
 }

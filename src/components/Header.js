@@ -6,14 +6,14 @@ const Header = () => {
   return (
     <header className="header">
       <div className="header-container">
-        <div className="logo">
+        <Link to="/" className="logo">
           <div className="logo-icon">
             <div className="wave-icon">🌊</div>
           </div>
           <div className="logo-text">
             MOVEMENT PERFORMANCE TRAINING
           </div>
-        </div>
+        </Link>
         
         <nav className="navigation">
           <Link to="/" className="nav-link">HOME</Link>

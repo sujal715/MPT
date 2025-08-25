@@ -100,6 +100,87 @@
   background: #0052a3;
 }
 
+.resource-btn.downloading {
+  background: #28a745;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+  .resource-btn.downloading:hover {
+    background: #28a745;
+  }
+
+/* Download Notification Styles */
+.download-notification {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  padding: 15px 20px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: slideInRight 0.3s ease-out;
+  max-width: 400px;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.download-notification.success {
+  background: linear-gradient(135deg, #28a745, #20c997);
+}
+
+.download-notification.error {
+  background: linear-gradient(135deg, #dc3545, #c82333);
+}
+
+.notification-message {
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.notification-close:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive notification */
+@media (max-width: 768px) {
+  .download-notification {
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+}
+
 .tip-card ul {
   list-style: none;
 }
@@ -181,6 +262,16 @@
 
 .weather-btn:hover {
   background: #e55a8a;
+}
+
+.weather-btn.loading {
+  background: #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.weather-btn.loading:hover {
+  background: #ccc;
 }
 
 .contact-resources {

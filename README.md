@@ -1,275 +1,94 @@
-# Movement Performance Training Website
+# Movement Performance Training - Backend
 
-A modern, responsive website for Movement Performance Training with admin dashboard, gallery management, and content management system.
+A Spring Boot backend application for the Movement Performance Training system.
 
-## 🚀 Features
+## Features
 
-- **Admin Dashboard** - Content management system
-- **Interactive Gallery** - Category-based filtering and image management
-- **Smart Chatbot** - AI-powered customer support
-- **Booking System** - Consultation and lesson booking
-- **Responsive Design** - Works on all devices
-- **Real-time Updates** - Dynamic content management
+- **Customer Management**: CRUD operations for customers
+- **Package Management**: CRUD operations for training packages
+- **Booking System**: Manage training sessions and appointments
+- **Testimonial System**: Customer reviews and ratings
+- **Payment Tracking**: Payment management for bookings
+- **RESTful API**: Complete REST API for frontend integration
 
-## 🏗️ Architecture
+## Technology Stack
 
-### Frontend (React)
-- React 19 with modern hooks
-- Responsive CSS with animations
-- Service layer for API communication
-- State management with React hooks
+- **Java 17**
+- **Spring Boot 3.5.3**
+- **Spring Data JPA**
+- **H2 Database** (in-memory for development)
+- **Maven** for build management
 
-### Backend Integration
-- RESTful API service layer
-- Authentication and authorization
-- File upload capabilities
-- Error handling and fallbacks
+## API Endpoints
 
-## 📋 Prerequisites
+### Customers
+- `GET /api/customers` - Get all customers
+- `GET /api/customers/{id}` - Get customer by ID
+- `POST /api/customers` - Create new customer
+- `PUT /api/customers/{id}` - Update customer
+- `DELETE /api/customers/{id}` - Delete customer
+- `GET /api/customers/search?name={name}` - Search customers by name
 
-- Node.js (v16 or higher)
-- npm or yarn
-- Your backend server running
+### Packages
+- `GET /api/packages` - Get all packages
+- `GET /api/packages/{id}` - Get package by ID
+- `POST /api/packages` - Create new package
+- `PUT /api/packages/{id}` - Update package
+- `DELETE /api/packages/{id}` - Delete package
+- `GET /api/packages/active` - Get active packages
 
-## 🛠️ Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/12203112-ctrl/MpT.git
-   cd MpT
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Environment Configuration**
-   Create a `.env` file in the root directory:
-   ```env
-   # Backend API URL
-   REACT_APP_API_URL=http://localhost:5000/api
-   
-   # App Configuration
-   REACT_APP_NAME=Movement Performance Training
-   REACT_APP_VERSION=1.0.0
-   
-   # Feature Flags
-   REACT_APP_ENABLE_CHATBOT=true
-   ```
-
-4. **Start the development server**
-   ```bash
-   npm start
-   ```
-
-## 🔗 Backend Connection
-
-### API Endpoints Expected
-
-Your backend should provide these endpoints:
-
-#### Authentication
-- `POST /api/auth/login` - User login
-- `POST /api/auth/logout` - User logout
-- `GET /api/auth/me` - Get current user
-
-#### Gallery Management
-- `GET /api/gallery` - Get all gallery items
-- `GET /api/gallery/category/:category` - Get items by category
-- `POST /api/gallery` - Create new item (admin)
-- `PUT /api/gallery/:id` - Update item (admin)
-- `DELETE /api/gallery/:id` - Delete item (admin)
-- `POST /api/gallery/upload` - Upload image (admin)
-
-#### Services Management
-- `GET /api/services` - Get all services
-- `GET /api/services/:id` - Get service by ID
-- `POST /api/services` - Create service (admin)
-- `PUT /api/services/:id` - Update service (admin)
-- `DELETE /api/services/:id` - Delete service (admin)
-
-#### Testimonials
-- `GET /api/testimonials` - Get all testimonials
-- `POST /api/testimonials` - Create testimonial (admin)
-- `PUT /api/testimonials/:id` - Update testimonial (admin)
-- `DELETE /api/testimonials/:id` - Delete testimonial (admin)
-
-#### Bookings
-- `GET /api/bookings` - Get all bookings (admin)
+### Bookings
+- `GET /api/bookings` - Get all bookings
+- `GET /api/bookings/{id}` - Get booking by ID
 - `POST /api/bookings` - Create new booking
-- `PUT /api/bookings/:id` - Update booking (admin)
-- `DELETE /api/bookings/:id` - Delete booking (admin)
+- `PUT /api/bookings/{id}` - Update booking
+- `DELETE /api/bookings/{id}` - Delete booking
+- `GET /api/bookings/customer/{customerId}` - Get bookings by customer
 
-### API Response Format
+### Testimonials
+- `GET /api/testimonials` - Get all testimonials
+- `GET /api/testimonials/{id}` - Get testimonial by ID
+- `POST /api/testimonials` - Create new testimonial
+- `PUT /api/testimonials/{id}` - Update testimonial
+- `DELETE /api/testimonials/{id}` - Delete testimonial
+- `GET /api/testimonials/approved` - Get approved testimonials
 
-All API responses should follow this format:
+## Getting Started
 
-```json
-{
-  "success": true,
-  "data": { ... },
-  "message": "Operation successful"
-}
-```
+### Prerequisites
+- Java 17 or higher
+- Maven 3.6 or higher
 
-Error responses:
-```json
-{
-  "success": false,
-  "error": "Error message",
-  "message": "Detailed error description"
-}
-```
+### Running Locally
+1. Clone the repository
+2. Navigate to the project directory
+3. Run: `./mvnw spring-boot:run`
+4. Access the API at: `http://localhost:8080`
+5. H2 Console at: `http://localhost:8080/h2-console`
 
-### Authentication
-
-The frontend expects JWT-based authentication:
-
-1. **Login Response**
-   ```json
-   {
-     "success": true,
-     "data": {
-       "token": "jwt_token_here",
-       "user": { ... }
-     }
-   }
-   ```
-
-2. **Request Headers**
-   ```
-   Authorization: Bearer <jwt_token>
-   Content-Type: application/json
-   ```
-
-## 🎯 Usage
-
-### Admin Dashboard
-- Navigate to `/admin`
-- Login with your backend credentials
-- Manage gallery, services, testimonials, and bookings
-
-### Gallery
-- Navigate to `/gallery`
-- Filter by categories
-- Click images to view full-size
-- Admin can add/edit/delete items
-
-### Chatbot
-- Available on the home page
-- Pre-programmed responses to common questions
-- Helps guide users to booking
-
-## 🔧 Development
-
-### Project Structure
-```
-src/
-├── components/          # Reusable components
-│   ├── Header.js       # Navigation header
-│   ├── Footer.js       # Site footer
-│   └── Chatbot.js      # Interactive chatbot
-├── pages/              # Page components
-│   ├── Home.js         # Homepage
-│   ├── Gallery.js      # Gallery page
-│   ├── Admin.js        # Admin dashboard
-│   └── ...
-├── services/           # API services
-│   ├── api.js          # Base API service
-│   ├── authService.js  # Authentication
-│   ├── galleryService.js # Gallery management
-│   └── ...
-└── ...
-```
-
-### Adding New Features
-
-1. **Create API Service**
-   ```javascript
-   // src/services/newFeatureService.js
-   import apiService from './api';
-   
-   class NewFeatureService {
-     async getData() {
-       return await apiService.get('/new-feature');
-     }
-   }
-   
-   export default new NewFeatureService();
-   ```
-
-2. **Update Component**
-   ```javascript
-   import newFeatureService from '../services/newFeatureService';
-   
-   // Use in component
-   const data = await newFeatureService.getData();
-   ```
-
-## 🚀 Deployment
-
-### Build for Production
+### Building
 ```bash
-npm run build
+./mvnw clean install
 ```
 
-### Environment Variables for Production
-```env
-REACT_APP_API_URL=https://your-backend-domain.com/api
-NODE_ENV=production
+### Running Tests
+```bash
+./mvnw test
 ```
 
-## 🐛 Troubleshooting
+## Database
 
-### Common Issues
+The application uses H2 in-memory database for development with sample data pre-loaded.
 
-1. **CORS Errors**
-   - Ensure your backend allows requests from frontend domain
-   - Check CORS configuration in backend
+## Deployment
 
-2. **Authentication Issues**
-   - Verify JWT token format
-   - Check token expiration
-   - Ensure proper Authorization header
+The application is configured for deployment to Railway with Docker support.
 
-3. **API Connection**
-   - Verify backend URL in `.env` file
-   - Check if backend server is running
-   - Test API endpoints with Postman/curl
+## CORS Configuration
 
-### Debug Mode
-Enable debug logging by setting in `.env`:
-```env
-REACT_APP_DEBUG=true
-```
-
-## 📱 Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-- Mobile browsers (iOS Safari, Chrome Mobile)
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
-## 📞 Support
-
-For support and questions:
-- Email: info@movementtraining.com
-- Phone: 04 99 471 101
-
----
-
-**Built with ❤️ for Movement Performance Training**
+CORS is configured to allow requests from:
+- Local development servers (localhost:3000, localhost:3001)
+- Railway deployments
+- Render deployments
+- Netlify deployments
+- Vercel deployments

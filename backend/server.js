@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -32,7 +33,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/movement-
 .then(() => console.log('✅ Connected to MongoDB'))
 .catch(err => console.error('❌ MongoDB connection error:', err));
 
-// Routes
+// API Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/gallery', require('./routes/gallery'));
 app.use('/api/services', require('./routes/services'));
@@ -49,6 +50,17 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Serve React frontend in production
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files from the React build
+  app.use(express.static(path.join(__dirname, '../build')));
+  
+  // Handle React routing, return all requests to React app
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build', 'index.html'));
+  });
+}
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -58,10 +70,12 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({ error: 'Route not found' });
-});
+// 404 handler (only for API routes in development)
+if (process.env.NODE_ENV !== 'production') {
+  app.use('*', (req, res) => {
+    res.status(404).json({ error: 'Route not found' });
+  });
+}
 
 const PORT = process.env.PORT || 5000;
 
@@ -69,6 +83,9 @@ app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📱 Frontend: ${process.env.FRONTEND_URL || 'http://localhost:3000'}`);
   console.log(`🔗 API: http://localhost:${PORT}/api`);
+  if (process.env.NODE_ENV === 'production') {
+    console.log(`🌐 Full-stack app: http://localhost:${PORT}`);
+  }
 });
 
 
