@@ -8,5 +8,11 @@
     "startCommand": "npm run start:fullstack",
     "healthcheckPath": "/api/health",
     "healthcheckTimeout": 300
+  },
+  "environments": {
+    "production": {
+      "NODE_ENV": "production",
+      "NIXPACKS_NODE_VERSION": "18"
+    }
   }
 }
