@@ -1,14 +1,16 @@
-# Ignore everything except Node.js files
-# This forces Railway to use Node.js instead of Java
-
-# Keep only these essential files
-!package.json
-!package-lock.json
-!backend/
-!src/
-!public/
-!railway.json
-!railway.toml
-
-# Ignore everything else (including any remaining Java files)
-*
+# Ignore Java and other non-essential files
+pom.xml
+.mvn/
+target/
+*.jar
+Dockerfile
+system.properties
+src/main/java/
+src/main/resources/
+src/test/
+mvnw
+mvnw.cmd
+.java-version
+Procfile
+render.yaml
+.render-buildpacks
