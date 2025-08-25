@@ -1,7 +1,7 @@
-# Only keep Node.js files for Railway deployment
-# Ignore everything except React frontend and Node.js backend
+# Ignore everything except Node.js files
+# This forces Railway to use Node.js instead of Java
 
-# Keep these essential files
+# Keep only these essential files
 !package.json
 !package-lock.json
 !backend/
@@ -9,8 +9,6 @@
 !public/
 !railway.json
 !railway.toml
-!nixpacks.toml
-!.railwayignore
 
-# Ignore everything else
+# Ignore everything else (including any remaining Java files)
 *
