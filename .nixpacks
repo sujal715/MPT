@@ -1,2 +1,13 @@
 providers = ["nodejs"]
-start_cmd = "cd backend && npm start"
+
+[phases.setup]
+nixPkgs = ["nodejs_18"]
+
+[phases.install]
+cmds = ["npm install"]
+
+[phases.build]
+cmds = ["npm run build"]
+
+[start]
+cmd = "cd backend && npm start"
