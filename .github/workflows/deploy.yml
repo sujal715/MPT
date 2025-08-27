@@ -24,12 +24,14 @@ jobs:
           chmod +x ./mvnw
           ./mvnw clean package -DskipTests
           echo "Backend build completed successfully!"
+          ls -la target/
           
       - name: Deploy Backend to Render
         run: |
           echo "Backend built successfully!"
           echo "Manual deployment to Render required for now"
           echo "Your backend JAR is ready in backend/target/"
+          echo "JAR file size: $(du -h backend/target/*.jar | head -1)"
           
   deploy-frontend:
     runs-on: ubuntu-latest
@@ -55,12 +57,14 @@ jobs:
           cd frontend
           npm run build
           echo "Frontend build completed successfully!"
+          ls -la build/
           
       - name: Deploy Frontend to Render
         run: |
           echo "Frontend built successfully!"
           echo "Manual deployment to Render required for now"
           echo "Your frontend build is ready in frontend/build/"
+          echo "Build directory size: $(du -sh frontend/build/)"
           
       - name: Show Build Results
         run: |
@@ -69,3 +73,11 @@ jobs:
           echo "Frontend: ✅ Built successfully"
           echo "Both applications are ready for deployment!"
           echo "Check your Render dashboard to deploy manually"
+          echo ""
+          echo "📱 Backend JAR: backend/target/mpt-0.0.1-SNAPSHOT.jar"
+          echo "🌐 Frontend Build: frontend/build/"
+          echo ""
+          echo "🚀 Next steps:"
+          echo "1. Go to Render dashboard"
+          echo "2. Update your services with these build outputs"
+          echo "3. Or wait for manual deployment"
