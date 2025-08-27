@@ -21,8 +21,6 @@ services:
         value: 8080
     healthCheckPath: /api/health
     autoDeploy: true
-    branch: main
-    repo: https://github.com/sujal715/MPT.git
 
   # React Frontend Service
   - type: web
@@ -41,5 +39,3 @@ services:
         value: https://mpt-spring-boot-backend.onrender.com
     healthCheckPath: /
     autoDeploy: true
-    branch: main
-    repo: https://github.com/sujal715/MPT.git
