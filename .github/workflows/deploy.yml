@@ -17,21 +17,45 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           
+      - name: Debug Environment
+        run: |
+          echo "=== ENVIRONMENT DEBUG ==="
+          echo "Java version: $(java -version 2>&1)"
+          echo "Maven version: $(mvn -version 2>&1 || echo 'Maven not available')"
+          echo "Current directory: $(pwd)"
+          echo "Directory contents: $(ls -la)"
+          echo "Backend directory: $(ls -la backend/)"
+          echo "Maven wrapper: $(ls -la backend/mvnw)"
+          echo "========================="
+          
       - name: Build Backend
         run: |
           echo "Building Spring Boot backend..."
           cd backend
+          echo "Current directory: $(pwd)"
+          echo "Maven wrapper permissions: $(ls -la mvnw)"
           chmod +x ./mvnw
+          echo "Maven wrapper permissions after chmod: $(ls -la mvnw)"
+          echo "Running Maven build..."
           ./mvnw clean package -DskipTests
           echo "Backend build completed successfully!"
+          echo "Target directory contents:"
           ls -la target/
+          echo "JAR file details:"
+          ls -la target/*.jar
           
       - name: Deploy Backend to Render
         run: |
           echo "Backend built successfully!"
           echo "Manual deployment to Render required for now"
           echo "Your backend JAR is ready in backend/target/"
-          echo "JAR file size: $(du -h backend/target/*.jar | head -1)"
+          if [ -f "backend/target/mpt-0.0.1-SNAPSHOT.jar" ]; then
+            echo "JAR file size: $(du -h backend/target/mpt-0.0.1-SNAPSHOT.jar)"
+            echo "JAR file exists and is ready!"
+          else
+            echo "❌ JAR file not found!"
+            exit 1
+          fi
           
   deploy-frontend:
     runs-on: ubuntu-latest
@@ -44,12 +68,23 @@ jobs:
         with:
           node-version: '16'
           
+      - name: Debug Frontend Environment
+        run: |
+          echo "=== FRONTEND ENVIRONMENT DEBUG ==="
+          echo "Node version: $(node -v)"
+          echo "NPM version: $(npm -v)"
+          echo "Current directory: $(pwd)"
+          echo "Frontend directory: $(ls -la frontend/)"
+          echo "Package.json: $(cat frontend/package.json | head -10)"
+          echo "================================"
+          
       - name: Install Frontend Dependencies
         run: |
           echo "Installing frontend dependencies..."
           cd frontend
           npm install
           echo "Dependencies installed successfully!"
+          echo "Node modules size: $(du -sh node_modules/)"
           
       - name: Build Frontend
         run: |
@@ -57,14 +92,22 @@ jobs:
           cd frontend
           npm run build
           echo "Frontend build completed successfully!"
+          echo "Build directory contents:"
           ls -la build/
+          echo "Build directory size: $(du -sh build/)"
           
       - name: Deploy Frontend to Render
         run: |
           echo "Frontend built successfully!"
           echo "Manual deployment to Render required for now"
           echo "Your frontend build is ready in frontend/build/"
-          echo "Build directory size: $(du -sh frontend/build/)"
+          if [ -d "frontend/build" ]; then
+            echo "Build directory exists and is ready!"
+            echo "Build directory size: $(du -sh frontend/build/)"
+          else
+            echo "❌ Build directory not found!"
+            exit 1
+          fi
           
       - name: Show Build Results
         run: |
