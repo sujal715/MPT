@@ -19,14 +19,17 @@ jobs:
           
       - name: Build Backend
         run: |
+          echo "Building Spring Boot backend..."
           cd backend
           chmod +x ./mvnw
           ./mvnw clean package -DskipTests
+          echo "Backend build completed successfully!"
           
       - name: Deploy Backend to Render
         run: |
           echo "Backend built successfully!"
           echo "Manual deployment to Render required for now"
+          echo "Your backend JAR is ready in backend/target/"
           
   deploy-frontend:
     runs-on: ubuntu-latest
@@ -41,15 +44,28 @@ jobs:
           
       - name: Install Frontend Dependencies
         run: |
+          echo "Installing frontend dependencies..."
           cd frontend
           npm install
+          echo "Dependencies installed successfully!"
           
       - name: Build Frontend
         run: |
+          echo "Building React frontend..."
           cd frontend
           npm run build
+          echo "Frontend build completed successfully!"
           
       - name: Deploy Frontend to Render
         run: |
           echo "Frontend built successfully!"
           echo "Manual deployment to Render required for now"
+          echo "Your frontend build is ready in frontend/build/"
+          
+      - name: Show Build Results
+        run: |
+          echo "=== BUILD SUMMARY ==="
+          echo "Backend: ✅ Built successfully"
+          echo "Frontend: ✅ Built successfully"
+          echo "Both applications are ready for deployment!"
+          echo "Check your Render dashboard to deploy manually"
