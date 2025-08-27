@@ -1,114 +1,152 @@
-# 🚀 MPT Full-Stack Application
+# MPT Full Stack Application
 
-A complete **Spring Boot + React** application with database, API endpoints, and modern web interface.
+This is a full-stack web application with a Spring Boot backend and React frontend.
 
-## 📁 **Project Structure:**
+## 🏗️ Project Structure
 
 ```
-mpt-unified/
-├── src/
-│   ├── main/
-│   │   ├── java/com/mpt/mpt/
-│   │   │   ├── entity/           # JPA Entities
-│   │   │   │   └── Booking.java
-│   │   │   ├── repository/       # Data Access Layer
-│   │   │   │   └── BookingRepository.java
-│   │   │   ├── service/          # Business Logic
-│   │   │   │   └── BookingService.java
-│   │   │   ├── BookingController.java
-│   │   │   ├── HealthController.java
-│   │   │   ├── MainController.java
-│   │   │   ├── TestController.java
-│   │   │   ├── WebConfig.java
-│   │   │   └── MptApplication.java
-│   │   └── resources/
-│   │       ├── static/           # React Frontend (built)
-│   │       ├── application.properties
-│   │       ├── application-railway.properties
-│   │       ├── schema.sql        # Database Schema
-│   │       └── data.sql          # Sample Data
-├── frontend-src/                  # React Source Code
-├── pom.xml                       # Maven Configuration
-└── build-and-run.sh              # Build & Run Script
+MpT/
+├── backend/                 # Spring Boot Backend
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/
+│   │   │   │   └── com/mpt/mpt/
+│   │   │   │       ├── MptApplication.java
+│   │   │   │       ├── controller/
+│   │   │   │       ├── service/
+│   │   │   │       ├── repository/
+│   │   │   │       └── entity/
+│   │   │   └── resources/
+│   │   │       ├── application.properties
+│   │   │       ├── schema.sql
+│   │   │       └── data.sql
+│   ├── pom.xml
+│   └── render.yaml
+├── frontend/                # React Frontend
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   └── config/
+│   ├── public/
+│   ├── package.json
+│   └── render.yaml
+└── deployment scripts
 ```
 
-## 🗄️ **Database Features:**
+## 🚀 Quick Start
 
-- **H2 In-Memory Database** (development)
-- **JPA/Hibernate** for data persistence
-- **Complete Schema** with tables for:
-  - Bookings
-  - Packages
-  - Services
-  - Testimonials
-- **Sample Data** for testing
+### Prerequisites
+- Java 17
+- Node.js 16+
+- Maven
+- Render account
 
-## 🔌 **API Endpoints:**
+### Local Development
 
-### Bookings
-- `POST /api/bookings/create` - Create new booking
-- `GET /api/bookings` - Get all bookings
-- `GET /api/bookings/{id}` - Get booking by ID
-- `PUT /api/bookings/{id}` - Update booking
-- `DELETE /api/bookings/{id}` - Delete booking
-
-### Health Check
-- `GET /api/health` - Application health status
-
-## 🚀 **Quick Start:**
-
-### **Option 1: Run Everything Together (Recommended)**
+#### Backend (Spring Boot)
 ```bash
-# Build and run Spring Boot (includes React)
-./build-and-run.sh
-```
-Then visit: `http://localhost:8080`
-
-### **Option 2: Run Separately for Development**
-```bash
-# Terminal 1: Start Spring Boot Backend
+cd backend
 ./mvnw spring-boot:run
+```
+Backend will be available at: http://localhost:8080
 
-# Terminal 2: Start React Frontend
-cd frontend-src
+#### Frontend (React)
+```bash
+cd frontend
 npm install
 npm start
 ```
+Frontend will be available at: http://localhost:3000
 
-## 🌐 **Access Points:**
+## 🌐 Deployment to Render
 
-- **Frontend**: `http://localhost:8080`
-- **H2 Database Console**: `http://localhost:8080/h2-console`
-- **API Base**: `http://localhost:8080/api`
-
-## 🗄️ **Database Connection (H2 Console):**
-- **JDBC URL**: `jdbc:h2:mem:testdb`
-- **Username**: `sa`
-- **Password**: `password`
-
-## 🚂 **Deploy to Railway:**
-
+### Option 1: Deploy Both (Recommended)
 ```bash
-# Deploy everything to Railway
-./railway-deploy.sh
+./deploy-both.sh
 ```
 
-## 🎯 **Key Features:**
+### Option 2: Deploy Separately
 
-✅ **Complete Backend** - Spring Boot with JPA, H2 Database  
-✅ **React Frontend** - Modern web interface  
-✅ **Database Schema** - Complete table structure  
-✅ **Sample Data** - Ready for testing  
-✅ **API Endpoints** - Full CRUD operations  
-✅ **Unified Project** - Everything in one place  
+#### Deploy Backend Only
+```bash
+./deploy-backend.sh
+```
 
-## 🔧 **Technologies Used:**
+#### Deploy Frontend Only
+```bash
+./deploy-frontend.sh
+```
 
-- **Backend**: Spring Boot 2.7.18, JPA, H2 Database
-- **Frontend**: React.js, Modern CSS
-- **Build Tool**: Maven
-- **Database**: H2 (in-memory for development)
+## 📱 Application Features
 
----
+### Backend (Spring Boot)
+- RESTful API endpoints
+- JPA/Hibernate for data persistence
+- H2 database (can be configured for production)
+- Entity relationships for:
+  - Bookings
+  - Services
+  - Packages
+  - Testimonials
 
-**🎉 Your complete MPT application is now ready with database, API, and frontend!**
+### Frontend (React)
+- Modern React 18 with hooks
+- Responsive design
+- Component-based architecture
+- API integration with backend
+
+## 🔧 Configuration
+
+### Backend Configuration
+- Database configuration in `backend/src/main/resources/application.properties`
+- Render-specific config in `application-render.properties`
+
+### Frontend Configuration
+- API endpoint configuration in `frontend/src/config/`
+- Environment variables for production deployment
+
+## 📊 API Endpoints
+
+- `GET /api/health` - Health check
+- `GET /api/bookings` - Get all bookings
+- `POST /api/bookings` - Create new booking
+- `GET /api/services` - Get all services
+- `GET /api/packages` - Get all packages
+- `GET /api/testimonials` - Get all testimonials
+
+## 🚨 Troubleshooting
+
+### Common Issues
+
+1. **Backend won't start**: Check Java version (requires Java 17)
+2. **Frontend build fails**: Ensure Node.js version is 16+
+3. **Deployment fails**: Check Render dashboard for build logs
+
+### Local Testing
+```bash
+# Test backend
+curl http://localhost:8080/api/health
+
+# Test frontend
+open http://localhost:3000
+```
+
+## 📝 Notes
+
+- The backend uses H2 database by default (in-memory)
+- For production, consider using PostgreSQL or MySQL
+- Frontend is configured to proxy API calls to backend during development
+- Both applications are configured for Render deployment
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test locally
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License.
