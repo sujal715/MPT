@@ -1,4 +1,5 @@
 // API Configuration for Render deployment
+// Updated with CORS fix - force redeployment
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://mpt-sawp.onrender.com';
 
 // API Service Class
