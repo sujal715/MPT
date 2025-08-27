@@ -24,10 +24,9 @@ jobs:
           ./mvnw clean package -DskipTests
           
       - name: Deploy Backend to Render
-        uses: johnbeynon/render-deploy@v1
-        with:
-          service-id: ${{ secrets.RENDER_BACKEND_SERVICE_ID }}
-          api-key: ${{ secrets.RENDER_API_KEY }}
+        run: |
+          echo "Backend built successfully!"
+          echo "Manual deployment to Render required for now"
           
   deploy-frontend:
     runs-on: ubuntu-latest
@@ -39,7 +38,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-          cache: 'npm'
           
       - name: Install Frontend Dependencies
         run: |
@@ -52,7 +50,6 @@ jobs:
           npm run build
           
       - name: Deploy Frontend to Render
-        uses: johnbeynon/render-deploy@v1
-        with:
-          service-id: ${{ secrets.RENDER_FRONTEND_SERVICE_ID }}
-          api-key: ${{ secrets.RENDER_API_KEY }}
+        run: |
+          echo "Frontend built successfully!"
+          echo "Manual deployment to Render required for now"
