@@ -1,156 +1,105 @@
-# 🚀 MPT Full-Stack Railway Deployment Guide
+# 🚂 Railway All-in-One Deployment Guide
 
-## **Overview**
-This guide will help you deploy your **complete Movement Performance Training (MPT) app** to Railway as a **full-stack application** - both backend AND frontend together!
+## 🎯 **What This Solves:**
 
-## **🎯 What You Get**
-- ✅ **Single URL** for your entire app
-- ✅ **Backend API** running on the same domain
-- ✅ **React Frontend** served by the backend
-- ✅ **Automatic scaling** and monitoring
-- ✅ **Easy deployment** from GitHub
+✅ **No More Port Conflicts** - Everything runs on one domain  
+✅ **Single Deployment** - Both backend and frontend deploy together  
+✅ **Automatic Routing** - `/api/*` goes to Spring Boot, everything else to React  
+✅ **Production Ready** - Optimized for production deployment  
 
-## **Project Structure**
-- **Frontend**: React app (React 19, React Router)
-- **Backend**: Node.js/Express API
-- **Database**: MongoDB (to be configured)
-- **Deployment**: Single Railway project for everything
+## 🏗️ **How It Works:**
 
-## **🚀 Step 1: Prepare Your Repository**
+1. **React Frontend** gets built and copied to Spring Boot's static resources
+2. **Spring Boot** serves both the API endpoints AND the React frontend
+3. **Railway** hosts everything on one domain with automatic port management
+4. **No port conflicts** - Railway handles all routing internally
 
-### **1.1 Run Full-Stack Deployment Script**
+## 🚀 **Deployment Steps:**
+
+### **Step 1: Install Railway CLI**
 ```bash
-./deploy-fullstack.sh
+npm install -g @railway/cli
 ```
 
-### **1.2 Verify Files (Script will check these)**
-- `railway.json` ✅ - Full-stack Railway configuration
-- `railway.toml` ✅ - Railway deployment settings
-- `package.json` ✅ - Full-stack build scripts
-- `backend/` directory with all routes ✅
-
-## **🚀 Step 2: Deploy to Railway**
-
-### **2.1 Connect to Railway**
-1. Go to [Railway Dashboard](https://railway.app/dashboard)
-2. Click "New Project"
-3. Select "Deploy from GitHub repo"
-4. Choose your MPT repository
-
-### **2.2 Railway Auto-Detection**
-Railway will automatically:
-- ✅ Detect your `railway.json` configuration
-- ✅ Build both frontend and backend
-- ✅ Deploy as a single full-stack app
-
-### **2.3 Configure Environment Variables**
-In Railway, set these environment variables:
-
-```env
-NODE_ENV=production
-PORT=5000
-MONGODB_URI=your-mongodb-connection-string
-JWT_SECRET=your-super-secret-jwt-key-here
-```
-
-## **🚀 Step 3: How Full-Stack Works**
-
-### **3.1 Build Process**
+### **Step 2: Login to Railway**
 ```bash
-npm run build:fullstack
-# 1. Builds React frontend (creates /build folder)
-# 2. Installs backend dependencies
+railway login
 ```
 
-### **3.2 Runtime Process**
+### **Step 3: Run the Deployment Script**
 ```bash
-npm run start:fullstack
-# 1. Starts Node.js backend server
-# 2. Serves React frontend from backend
-# 3. Single port, single URL for everything
+chmod +x railway-deploy.sh
+./railway-deploy.sh
 ```
 
-### **3.3 URL Structure**
-- **Frontend**: `https://your-app.railway.app`
-- **Backend API**: `https://your-app.railway.app/api`
-- **Health Check**: `https://your-app.railway.app/api/health`
-
-## **🚀 Step 4: Test Your Full-Stack App**
-
-### **4.1 Health Check**
-Visit: `https://your-app.railway.app/api/health`
-Should return: `{"status":"OK","message":"Movement Performance Training API is running"}`
-
-### **4.2 Frontend**
-Visit: `https://your-app.railway.app`
-Should show your React MPT app
-
-### **4.3 API Endpoints**
-- `/api/auth` - Authentication
-- `/api/gallery` - Gallery management
-- `/api/services` - Services
-- `/api/testimonials` - Testimonials
-- `/api/bookings` - Booking system
-- `/api/admin` - Admin panel
-
-## **🚀 Step 5: Database Setup**
-
-### **5.1 MongoDB Atlas (Recommended)**
-1. Create free MongoDB Atlas account
-2. Create new cluster
-3. Get connection string
-4. Add to Railway environment variables
-
-### **5.2 Railway MongoDB (Alternative)**
-1. Add MongoDB plugin in Railway
-2. Railway will provide connection string
-3. Add to environment variables
-
-## **🔧 Troubleshooting**
-
-### **Build Errors**
-- Check `railway.json` syntax
-- Verify all dependencies in both package.json files
-- Check Node.js version compatibility
-
-### **Runtime Errors**
-- Check environment variables
-- Verify MongoDB connection
-- Check Railway logs
-
-### **Frontend Not Loading**
-- Verify React build completed successfully
-- Check backend is serving static files
-- Verify routing configuration
-
-## **📱 Current Status**
-- ✅ Full-stack configuration ready
-- ✅ Backend routes created
-- ✅ Railway configuration updated
-- ✅ Deployment scripts ready
-- 🔄 Ready for full-stack Railway deployment
-
-## **🎯 Next Steps**
-1. **Run deployment script**: `./deploy-fullstack.sh`
-2. **Deploy to Railway** using this guide
-3. **Set up MongoDB** database
-4. **Configure environment variables**
-5. **Test complete full-stack app**
-
-## **💡 Benefits of Full-Stack Deployment**
-- **Single URL** - No CORS issues
-- **Easier management** - One project, one deployment
-- **Better performance** - Frontend served from backend
-- **Simplified scaling** - Railway handles everything
-- **Cost effective** - Single service instead of two
-
-## **🚀 Ready to Deploy?**
-
-**Run this command to deploy everything together:**
+### **Step 4: Manual Deployment (Alternative)**
 ```bash
-./deploy-fullstack.sh
+# Build React frontend
+npm run build
+
+# Copy to Spring Boot
+cp -r build/* ../mpt-backend/src/main/resources/static/
+
+# Deploy Spring Boot
+cd ../mpt-backend
+railway up
 ```
 
----
+## 🔧 **Configuration Files Created:**
 
-**Your MPT app will be a complete full-stack application running on Railway with a single URL! 🎉**
+### **railway.json** - Main Railway configuration
+### **application-railway.properties** - Spring Boot Railway config
+### **WebConfig.java** - Frontend serving configuration
+
+## 🌐 **After Deployment:**
+
+- **Single URL**: `https://your-app.railway.app`
+- **API Endpoints**: `https://your-app.railway.app/api/*`
+- **Frontend Routes**: `https://your-app.railway.app/*` (React handles routing)
+
+## 📱 **What Users Will See:**
+
+1. **Visit your domain** → React frontend loads
+2. **Navigate to /booking** → React booking form
+3. **Submit booking** → API call to `/api/bookings/create`
+4. **Spring Boot processes** → Returns confirmation
+5. **React displays** → Success message to user
+
+## 🔍 **Testing Your Deployed App:**
+
+```bash
+# Test API endpoint
+curl -X POST https://your-app.railway.app/api/bookings/create \
+  -H "Content-Type: application/json" \
+  -d '{"customerName":"Test","customerEmail":"test@example.com","packageId":1,"selectedDate":"2024-01-15","selectedTime":"10:00"}'
+
+# Test frontend
+open https://your-app.railway.app
+```
+
+## 🎉 **Benefits of This Setup:**
+
+- **No Port Management** - Railway handles everything
+- **Single Domain** - Professional, clean URLs
+- **Automatic Scaling** - Railway scales based on traffic
+- **Easy Updates** - Deploy both together with one command
+- **Production Ready** - Optimized builds and configurations
+
+## 🚨 **Important Notes:**
+
+- **Environment Variables**: Set `SPRING_PROFILES_ACTIVE=railway` in Railway
+- **Build Process**: React builds first, then Spring Boot includes it
+- **Static Files**: React build gets embedded in Spring Boot JAR
+- **CORS**: Configured for production use
+
+## 🔄 **Updating Your App:**
+
+```bash
+# Make changes to your code
+# Then run:
+./railway-deploy.sh
+# Or manually:
+npm run build && cp -r build/* ../mpt-backend/src/main/resources/static/ && cd ../mpt-backend && railway up
+```
+
+Your app will now run as **one unified service** on Railway with no port conflicts! 🎯
