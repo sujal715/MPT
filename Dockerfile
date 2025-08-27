@@ -4,12 +4,8 @@ FROM openjdk:17-jdk-slim
 # Set working directory
 WORKDIR /app
 
-# Copy Maven wrapper and pom.xml
-COPY mpt-unified/mvnw .
-COPY mpt-unified/pom.xml .
-
-# Copy source code
-COPY mpt-unified/src ./src
+# Copy the entire mpt-unified directory
+COPY mpt-unified/ .
 
 # Make Maven wrapper executable
 RUN chmod +x mvnw
