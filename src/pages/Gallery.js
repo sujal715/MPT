@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import galleryService from '../services/galleryService';
+import { galleryService } from '../services/galleryService';
 import './Gallery.css';
 
 const Gallery = () => {
@@ -23,10 +23,15 @@ const Gallery = () => {
     const fetchGalleryData = async () => {
       try {
         setLoading(true);
-        const data = await galleryService.getAllGalleryItems();
-        setGalleryItems(data);
-        setError(null);
+        const response = await galleryService.getAllItems();
+        if (response.success && response.data) {
+          setGalleryItems(response.data);
+          setError(null);
+        } else {
+          throw new Error('Invalid response format');
+        }
       } catch (err) {
+        console.log('Using fallback gallery data due to error:', err.message);
         setError('Failed to load gallery. Using sample data.');
         // Fallback to sample data if backend is not available
         setGalleryItems([
