@@ -1,10 +1,9 @@
 services:
-  - type: web
+  - type: static
     name: mpt-frontend
-    env: static
     buildCommand: npm install && npm run build
     staticPublishPath: ./build
     envVars:
       - key: REACT_APP_API_URL
-        value: https://mpt-backend.onrender.com
+        value: https://mpt.onrender.com
     autoDeploy: true
