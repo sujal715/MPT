@@ -24,11 +24,10 @@ jobs:
           chmod +x ./mvnw
           ./mvnw clean package -DskipTests
           
-      - name: Deploy to Render (Backend)
-        uses: johnbeynon/render-deploy@v1
-        with:
-          service-id: ${{ secrets.RENDER_BACKEND_SERVICE_ID }}
-          api-key: ${{ secrets.RENDER_API_KEY }}
+      - name: Notify Backend Ready
+        run: |
+          echo "✅ Spring Boot backend built successfully!"
+          echo "🚀 Ready for manual deployment to Render!"
 
   deploy-frontend:
     runs-on: ubuntu-latest
@@ -49,8 +48,8 @@ jobs:
       - name: Build React App
         run: npm run build
         
-      - name: Deploy to Render (Frontend)
-        uses: johnbeynon/render-deploy@v1
-        with:
-          service-id: ${{ secrets.RENDER_FRONTEND_SERVICE_ID }}
-          api-key: ${{ secrets.RENDER_API_KEY }}
+      - name: Notify Frontend Ready
+        run: |
+          echo "✅ React frontend built successfully!"
+          echo "🚀 Ready for manual deployment to Render!"
+          echo "📋 Both services are ready for Render deployment!"
