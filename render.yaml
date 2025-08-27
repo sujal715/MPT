@@ -2,7 +2,7 @@ services:
   # Spring Boot Backend Service
   - type: web
     name: mpt-spring-boot-backend
-    runtime: java
+    env: java
     region: oregon
     plan: free
     buildCommand: |
@@ -27,7 +27,7 @@ services:
   # React Frontend Service
   - type: web
     name: mpt-react-frontend
-    runtime: node
+    env: node
     region: oregon
     plan: free
     buildCommand: npm install && npm run build
