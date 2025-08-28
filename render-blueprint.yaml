@@ -1,17 +1,14 @@
 services:
-  # Spring Boot Backend Service
+  # Complete MPT Application (Single Service)
   - type: web
-    name: mpt-spring-boot-backend
+    name: mpt-complete-app
     env: java
-    region: oregon
-    plan: free
     buildCommand: |
-      cd mpt-unified
-      chmod +x ./mvnw
+      # Build React frontend first
+      npm install && npm run build
+      # Then build Spring Boot backend
       ./mvnw clean package -DskipTests
-    startCommand: |
-      cd mpt-unified
-      java -jar target/mpt-0.0.1-SNAPSHOT.jar
+    startCommand: java -jar target/mpt-0.0.1-SNAPSHOT.jar
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: render
@@ -19,27 +16,14 @@ services:
         value: 17
       - key: PORT
         value: 8080
-    healthCheckPath: /api/health
-    autoDeploy: true
-    branch: main
-    repo: https://github.com/sujal715/MPT.git
-
-  # React Frontend Service
-  - type: web
-    name: mpt-react-frontend
-    env: node
-    region: oregon
-    plan: free
-    buildCommand: npm install && npm run build
-    startCommand: npm start
-    envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 3000
-      - key: REACT_APP_API_URL
-        value: https://mpt-spring-boot-backend.onrender.com
-    healthCheckPath: /
+    healthCheckPath: /api/health
     autoDeploy: true
-    branch: main
-    repo: https://github.com/sujal715/MPT.git
+    plan: free
+    # Serve React frontend from Spring Boot
+    staticPublishPath: ./build
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
