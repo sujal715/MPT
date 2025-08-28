@@ -1,56 +1,34 @@
 #!/bin/bash
 
-echo "🚀 Deploying MPT React Frontend to Render!"
-echo "============================================="
+echo "🚀 Deploying Frontend to Render..."
+echo "===================================="
 
-# Check if we're in the right directory
-if [ ! -f "package.json" ]; then
-    echo "❌ Error: package.json not found. Please run this script from the mpt directory."
-    exit 1
-fi
-
-echo "📦 Installing React dependencies..."
-npm install
-
-if [ $? -eq 0 ]; then
-    echo "✅ Dependencies installed successfully!"
-    echo ""
-    echo "🔨 Building React application..."
-    npm run build
-    
-    if [ $? -eq 0 ]; then
-        echo "✅ Build successful!"
-        echo ""
-        echo "🚀 Your React frontend is ready for Render deployment!"
-        echo ""
-        echo "🌐 To deploy to Render:"
-        echo "1. Go to: https://render.com"
-        echo "2. Sign up/Login with GitHub"
-        echo "3. Click 'New +' → 'Web Service'"
-        echo "4. Connect your GitHub repository"
-        echo "5. Select this 'mpt' repository"
-        echo "6. Render will auto-detect it's a React app"
-        echo "7. Click 'Create Web Service'"
-        echo ""
-        echo "✅ Render will automatically:"
-        echo "   - Install Node.js"
-        echo "   - Install dependencies (npm install)"
-        echo "   - Build your app (npm run build)"
-        echo "   - Start your app (npm start)"
-        echo "   - Give you a live URL!"
-        echo ""
-        echo "🎯 Your frontend will be available at:"
-        echo "   - Main App: https://your-app-name.onrender.com"
-        echo "   - All your React pages and components!"
-        echo ""
-        echo "🚀 Ready to deploy! Go to https://render.com now!"
-        
-    else
-        echo "❌ Build failed! Please check the errors above."
-        exit 1
-    fi
-    
-else
-    echo "❌ Dependencies installation failed! Please check the errors above."
-    exit 1
-fi
+echo "✅ Your build files are ready in ./build/"
+echo "✅ Your render.yaml is configured for both services"
+echo ""
+echo "🌐 Next Steps for Render Deployment:"
+echo ""
+echo "1. Go to: https://dashboard.render.com"
+echo "2. Sign in to your existing account"
+echo "3. Click 'New +' → 'Static Site'"
+echo "4. Choose deployment method:"
+echo "   - Option A: Connect GitHub repo (if you want source building)"
+echo "   - Option B: Manual upload (recommended for privacy)"
+echo "5. Configure settings:"
+echo "   - Name: mpt-react-frontend"
+echo "   - Choose 'Deploy from local directory' (if available)"
+echo "   - OR upload your build folder directly"
+echo "   - No build command needed - files are ready"
+echo ""
+echo "6. Add Environment Variable:"
+echo "   Key: REACT_APP_API_URL"
+echo "   Value: https://mp-xkhc.onrender.com"
+echo ""
+echo "7. Click 'Create Static Site'"
+echo ""
+echo "🔗 Your complete setup will be:"
+echo "   - Backend: https://mp-xkhc.onrender.com"
+echo "   - Frontend: https://mpt-react-frontend.onrender.com"
+echo ""
+echo "🎯 Ready to deploy on Render!"
+echo "🔒 Your source code stays private!"

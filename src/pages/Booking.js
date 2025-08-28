@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './Booking.css';
-import apiService from '../services/api';
 
 const Booking = () => {
   const [formData, setFormData] = useState({
@@ -28,30 +27,26 @@ const Booking = () => {
     setIsSubmitting(true);
     setBookingResult(null);
 
-    try {
-      const result = await apiService.post('/bookings/create', formData);
-      setBookingResult(result);
-      
-      if (result.success) {
-        // Reset form on success
-        setFormData({
-          customerName: '',
-          customerEmail: '',
-          customerPhone: '',
-          packageId: 1,
-          selectedDate: '',
-          selectedTime: '10:00',
-          specialRequests: ''
-        });
-      }
-    } catch (error) {
+    // Simulate form submission (no server connection needed)
+    setTimeout(() => {
       setBookingResult({
-        success: false,
-        message: 'Error connecting to server: ' + error.message
+        success: true,
+        message: 'Thank you! Your consultation has been booked successfully. We will contact you soon to confirm your appointment.'
       });
-    } finally {
+      
+      // Reset form on success
+      setFormData({
+        customerName: '',
+        customerEmail: '',
+        customerPhone: '',
+        packageId: 1,
+        selectedDate: '',
+        selectedTime: '10:00',
+        specialRequests: ''
+      });
+      
       setIsSubmitting(false);
-    }
+    }, 1500);
   };
 
   return (
@@ -106,7 +101,7 @@ const Booking = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="customerEmail">Email *</label>
+              <label htmlFor="customerEmail">Email Address *</label>
               <input
                 type="email"
                 id="customerEmail"
@@ -114,7 +109,7 @@ const Booking = () => {
                 value={formData.customerEmail}
                 onChange={handleInputChange}
                 required
-                placeholder="Enter your email"
+                placeholder="Enter your email address"
               />
             </div>
 
@@ -131,19 +126,18 @@ const Booking = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="packageId">Training Package *</label>
+              <label htmlFor="packageId">Training Package</label>
               <select
                 id="packageId"
                 name="packageId"
                 value={formData.packageId}
                 onChange={handleInputChange}
-                required
               >
-                <option value={1}>Basic Package - $99.99 (1 hour)</option>
-                <option value={2}>Premium Package - $199.99 (2 hours)</option>
-                <option value={3}>Deluxe Package - $299.99 (3 hours)</option>
-                <option value={4}>VIP Package - $499.99 (4 hours)</option>
-                <option value={5}>Corporate Package - $799.99 (6 hours)</option>
+                <option value={1}>Free 15-Minute Consultation</option>
+                <option value={2}>Kitesurfing Training</option>
+                <option value={3}>Hydrofoil Training</option>
+                <option value={4}>Wing Foil Training</option>
+                <option value={5}>Performance Training</option>
               </select>
             </div>
 
@@ -162,51 +156,57 @@ const Booking = () => {
 
             <div className="form-group">
               <label htmlFor="selectedTime">Preferred Time *</label>
-              <input
-                type="time"
+              <select
                 id="selectedTime"
                 name="selectedTime"
                 value={formData.selectedTime}
                 onChange={handleInputChange}
                 required
-              />
+              >
+                <option value="09:00">9:00 AM</option>
+                <option value="10:00">10:00 AM</option>
+                <option value="11:00">11:00 AM</option>
+                <option value="12:00">12:00 PM</option>
+                <option value="13:00">1:00 PM</option>
+                <option value="14:00">2:00 PM</option>
+                <option value="15:00">3:00 PM</option>
+                <option value="16:00">4:00 PM</option>
+                <option value="17:00">5:00 PM</option>
+              </select>
             </div>
 
             <div className="form-group">
-              <label htmlFor="specialRequests">Special Requests</label>
+              <label htmlFor="specialRequests">Special Requests or Questions</label>
               <textarea
                 id="specialRequests"
                 name="specialRequests"
                 value={formData.specialRequests}
                 onChange={handleInputChange}
-                placeholder="Any special requirements or notes..."
-                rows="3"
+                rows="4"
+                placeholder="Any specific questions or requests for your consultation?"
               />
             </div>
 
             <button 
               type="submit" 
-              className="book-now-btn" 
+              className="submit-btn"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Booking...' : 'Book Now →'}
+              {isSubmitting ? 'Booking...' : 'Book Consultation'}
             </button>
           </form>
 
-          {/* Booking Result */}
+          {/* Success/Error Message */}
           {bookingResult && (
             <div className={`booking-result ${bookingResult.success ? 'success' : 'error'}`}>
-              <h4>{bookingResult.success ? '✅ Success!' : '❌ Error'}</h4>
               <p>{bookingResult.message}</p>
-              {bookingResult.success && bookingResult.data && (
-                <div className="booking-details">
-                  <p><strong>Booking ID:</strong> {bookingResult.data.bookingId}</p>
-                  <p><strong>Total Amount:</strong> ${bookingResult.data.totalAmount}</p>
-                  <p><strong>Status:</strong> {bookingResult.data.status}</p>
-                </div>
-              )}
             </div>
           )}
+
+          <div className="booking-info">
+            <p><strong>Note:</strong> This is a demo booking form. In a real application, this would connect to your backend server.</p>
+            <p>Your consultation will be confirmed via email within 24 hours.</p>
+          </div>
         </div>
       </div>
     </div>

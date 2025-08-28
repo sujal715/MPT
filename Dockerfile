@@ -1,20 +1,5 @@
-# Use OpenJDK 17 as base image
-FROM openjdk:17-jdk-slim
-
-# Set working directory
+FROM eclipse-temurin:17-jre
 WORKDIR /app
-
-# Copy the entire mpt-unified directory
-COPY mpt-unified/ .
-
-# Make Maven wrapper executable
-RUN chmod +x mvnw
-
-# Build the application
-RUN ./mvnw clean package -DskipTests
-
-# Expose port
+COPY target/mpt-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-
-# Run the application
-CMD ["java", "-jar", "target/mpt-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "app.jar"]
