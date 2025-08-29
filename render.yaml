@@ -1,14 +1,13 @@
 services:
   # Frontend Service (React)
-  - type: web
+  - type: static
     name: mpt-frontend
-    runtime: node
+    rootDir: frontend
     buildCommand: npm install && npm run build
-    startCommand: npx serve -s build -l $PORT
-    plan: free
+    staticPublishPath: ./build
     envVars:
       - key: NODE_ENV
         value: production
       - key: REACT_APP_API_URL
         value: https://mpt-backend.onrender.com
-    staticPublishPath: ./build
+    autoDeploy: true
